@@ -1,0 +1,21 @@
+.participate__inner {
+    grid-column: col3 / col5;
+}
+
+.participate__inner__text {
+    font-family: $tertiaryFontFamily;
+    text-align: center;
+}
+
+.form-participate {
+    max-width: 400px;
+    margin: 3rem auto 0;
+
+    input, textarea {
+        display: block;
+    }
+}
+
+.form-group {
+    position: relative;
+}

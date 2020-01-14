@@ -19,3 +19,17 @@
 .map {
   background-color: $tertiaryBackgroundColor;
 }
+
+.map__inner {
+  grid-column: col2 / col6;
+  text-align: center;
+}
+
+.map__inner__header {
+  color: $white;
+}
+
+.map__inner__text {
+  color: $white;
+  font-family: $tertiaryFontFamily;
+}

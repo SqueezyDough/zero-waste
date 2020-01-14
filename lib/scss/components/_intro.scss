@@ -1,7 +1,3 @@
-.intro {
-    //margin-top: 12rem;
-}
-
 .intro__inner {
     grid-column: col4 / gutter2;
     padding: 12rem 0;
@@ -15,6 +11,10 @@
     margin-bottom: 2rem;
 }
 
+.intro__inner__text {
+    font-family: $tertiaryFontFamily;
+}
+
 .intro__hero {
     grid-column: gutter1 / col4;
     position: relative;
@@ -23,14 +23,14 @@
 .yellow-smudge {
     position: absolute;
     top: 2rem;
-    left: -4rem;
+    left: -6rem;
     height: 80%;
     z-index: -3;
     animation: spreadSmudge .5s forwards ease-out;
 
     @keyframes spreadSmudge {
         100% {
-            height: 100%;
+            height: 90%;
         }
     }
 }

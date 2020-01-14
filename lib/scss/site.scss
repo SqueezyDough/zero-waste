@@ -3,9 +3,12 @@
 @import "_base.scss";
 @import "_mixins.scss";
 @import "_grid-layout.scss";
+@import "_forms.scss";
 
 // componenents
 @import "./components/_global-nav.scss";
 @import "./components/_intro.scss";
 @import "./components/_map.scss";
 @import "./components/_data-shared.scss";
+@import "./components/_transparency.scss";
+@import "./components/_participate.scss";

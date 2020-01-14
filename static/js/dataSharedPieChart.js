@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+// source: https://www.d3-graph-gallery.com/graph/pie_annotation.html
+
 export { draw };
 
 function draw () {

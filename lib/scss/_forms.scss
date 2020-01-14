@@ -1,0 +1,50 @@
+// source: https://jsfiddle.net/273ntk5s/2/
+
+input, textarea {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  background-color: $white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+  font-size: 1rem;
+}
+
+input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label,
+textarea:focus ~ .floating-label,
+textarea:not(:focus):valid ~ .floating-label {
+  top: 2px;
+  left: 1rem;
+  font-size: .7rem;
+}
+
+input[type="submit"] {
+  max-width: 100px;
+  margin: 0 auto;
+  background-color: $mainThemeColor;
+  color: $white;
+  box-shadow: unset;
+  border-radius: 5px;
+  transition: $transitionDuration ease all;
+
+  &:hover {
+    box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+    cursor: pointer;
+  }
+}
+
+.input-text {
+  font-size: 1rem;
+}
+
+.floating-label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: $transitionDuration ease all;
+}

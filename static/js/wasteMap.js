@@ -22,7 +22,7 @@ function drawMap () {
 
   const colorDistricts = d3.scaleLinear()
     .domain([0, 50000000])
-    .range(['#fffadd', '#ffb500']);
+    .range(['#fff', '#ffb500']);
 
   d3.queue()
     .defer(d3.json, './static/data/output/wasteByDistrict.json')
