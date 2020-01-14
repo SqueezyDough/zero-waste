@@ -1,26 +1,35 @@
 @font-face {
     font-family: "Arial-black";
-    src: url("../fonts/Arial/arial-black.ttf");
+    src: url("../../static/fonts/Arial/arial-black.ttf");
 }
 
 @font-face {
     font-family: "Poppins-regular";
-    src: url("../fonts/Poppins/Poppins-Regular.ttf");
+    src: url("../../static/fonts/Poppins/Poppins-Regular.ttf");
 }
 
 @font-face {
     font-family: "Poppins-semibold";
-    src: url("../fonts/Poppins/Poppins-SemiBold.ttf");
+    src: url("../../static/fonts/Poppins/Poppins-SemiBold.ttf");
 }
+// Colors
+$astronautBlue: #273e66;
+$steelBlue: #4490b4;
+$selectiveYellow: #ffb500;
+$scotchMist: #fffadd;
+$dandelion: #ffd464;
+$white: #fff;
 
 // Theme colors
-$mainThemeColor: #000;
-$secondaryThemeColor: #000;
-$tertiaryThemeColor: #000;
+$mainThemeColor: $astronautBlue;
+$secondaryThemeColor: $steelBlue;
+$tertiaryThemeColor: $selectiveYellow;
 
 // Background colors
-$primaryBackgroundColor: #000;
-$secondaryBackgroundColor: #000;
+$primaryBackgroundColor: $scotchMist;
+$secondaryBackgroundColor: $steelBlue;
+$tertiaryBackgroundColor: $astronautBlue;
+$quaternaryBackground-color: $dandelion;
 
 // Fonts
 $primaryFontFamily: "Arial-black", Arial, sans-serif;
@@ -28,4 +37,4 @@ $secondaryFontfamily: "Poppins-semibold", Arial, sans-serif;
 $tertiaryFontFamily: "Poppins-regular", Arial, sans-serif;
 
 // Transition
-$transitionDuration: .3s;
+$transitionDuration: .2s;

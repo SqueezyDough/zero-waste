@@ -1,0 +1,20 @@
+<section class="data-shared grid-container">
+    <div class="data-shared__chart">
+        <div id="dataSharedChart" class="data-shared__chart__inner"></div>
+    </div>
+    <div class="data-shared__inner">
+        <h2 class="data-shared__inner__header">Data in beeld</h2>
+        <span class="data-shared__inner__text">
+            Van de 32 afvalophalers in Amsterdam heeft 1 bedrijf haar data gedeeld.  Zo krijgt de gemeente niet een helder en transparant beeld van de afvalstromen.
+            Ga samen voor een efficiënter Amsterdam
+        </span>
+    </div>
+</section>
+
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<script type="module">
+    import * as pieChart from "../static/js/dataSharedPieChart.js";
+
+    pieChart.draw();
+</script>

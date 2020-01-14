@@ -7,7 +7,7 @@ utils.isNumber = function (string) {
 };
 
 utils.createJson = function (data, fileName) {
-  fs.writeFile(`./data/output/${fileName}.json`, data, function (err) {
+  fs.writeFile(`./static/data/output/${fileName}.json`, data, function (err) {
     if (err) {
       console.log(err);
     }
