@@ -27,7 +27,7 @@ input[type="submit"] {
   background-color: $mainThemeColor;
   color: $white;
   box-shadow: unset;
-  border-radius: 5px;
+  border-radius: 0 5px 5px 0;
   transition: $transitionDuration ease all;
 
   &:hover {

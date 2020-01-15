@@ -31,6 +31,11 @@ $secondaryBackgroundColor: $steelBlue;
 $tertiaryBackgroundColor: $astronautBlue;
 $quaternaryBackground-color: $dandelion;
 
+// Media queries
+$smallScreens: 30rem;
+$mediumScreens: 70rem;
+$largeScreens: 100rem;
+
 // Fonts
 $primaryFontFamily: "Arial-black", Arial, sans-serif;
 $secondaryFontfamily: "Poppins-semibold", Arial, sans-serif;

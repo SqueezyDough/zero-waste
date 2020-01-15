@@ -62,7 +62,7 @@ input[type="submit"] {
   background-color: #273e66;
   color: #fff;
   box-shadow: unset;
-  border-radius: 5px;
+  border-radius: 0 5px 5px 0;
   transition: 0.2s ease all; }
   input[type="submit"]:hover {
     box-shadow: 5px 5px 0 0 #ffb500;
@@ -143,16 +143,16 @@ input[type="submit"] {
 .trash-cans {
   position: absolute;
   bottom: 6rem;
-  left: -1.5rem;
+  right: 50%;
   height: 33%;
-  transform: translateY(-30%);
-  z-index: -1; }
+  z-index: -1;
+  transform: translateY(-30%); }
 
 .garbage-truck {
   position: absolute;
   top: 50%;
   bottom: 7rem;
-  right: 6rem;
+  right: 5%;
   height: 45%;
   z-index: -2;
   transform: translateY(-50%);
@@ -236,6 +236,14 @@ input[type="submit"] {
   to {
     background-position: -100% 0; } }
 
+.participate {
+  position: relative;
+  background-image: url("../../static/images/vlek-wit.svg");
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-position-y: center; }
+
 .participate__inner {
   grid-column: col3 / col5; }
 
@@ -244,10 +252,23 @@ input[type="submit"] {
   text-align: center; }
 
 .form-participate {
+  position: relative;
   max-width: 400px;
-  margin: 3rem auto 0; }
+  margin: 3rem auto 0;
+  z-index: 1; }
   .form-participate input, .form-participate textarea {
     display: block; }
 
 .form-group {
   position: relative; }
+
+.img-container {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  height: 15rem;
+  transform: translateY(-50%) scale(0);
+  transition: .5s ease-in-out all; }
+  @media (min-width: 70rem) {
+    .img-container {
+      transform: translateY(-50%) scale(1); } }
