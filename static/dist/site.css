@@ -236,6 +236,14 @@ input[type="submit"] {
   to {
     background-position: -100% 0; } }
 
+.compare-waste__inner {
+  grid-column: col2 / col6;
+  padding: 0 10%;
+  text-align: center; }
+
+.compare-waste__inner__text {
+  font-family: "Poppins-regular", Arial, sans-serif; }
+
 .participate {
   position: relative;
   background-image: url("../../static/images/vlek-wit.svg");
@@ -245,11 +253,11 @@ input[type="submit"] {
   background-position-y: center; }
 
 .participate__inner {
-  grid-column: col3 / col5; }
+  grid-column: col3 / col5;
+  text-align: center; }
 
 .participate__inner__text {
-  font-family: "Poppins-regular", Arial, sans-serif;
-  text-align: center; }
+  font-family: "Poppins-regular", Arial, sans-serif; }
 
 .form-participate {
   position: relative;

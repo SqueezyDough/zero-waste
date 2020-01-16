@@ -1,0 +1,45 @@
+.participate {
+    position: relative;
+    background-image: url('../../static/images/vlek-wit.svg');
+    background-size: 30%;
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: center;
+}
+
+.participate__inner {
+    grid-column: col3 / col5;
+    text-align: center;
+}
+
+.participate__inner__text {
+    font-family: $tertiaryFontFamily;
+}
+
+.form-participate {
+    position: relative;
+    max-width: 400px;
+    margin: 3rem auto 0;
+    z-index: 1;
+
+    input, textarea {
+        display: block;
+    }
+}
+
+.form-group {
+    position: relative;
+}
+
+.img-container {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    height: 15rem;
+    transform: translateY(-50%) scale(0);
+    transition: .5s ease-in-out all;
+
+    @media (min-width: $mediumScreens) {
+        transform: translateY(-50%) scale(1);
+    }
+}

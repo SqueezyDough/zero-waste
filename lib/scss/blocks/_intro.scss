@@ -1,0 +1,63 @@
+.intro__inner {
+    grid-column: col4 / gutter2;
+    padding: 12rem 0;
+    max-width: 30rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.intro__inner__header {
+    line-height: 3rem;
+    margin-bottom: 2rem;
+}
+
+.intro__inner__text {
+    font-family: $tertiaryFontFamily;
+}
+
+.intro__hero {
+    grid-column: gutter1 / col4;
+    position: relative;
+}
+
+.yellow-smudge {
+    position: absolute;
+    top: 2rem;
+    left: -6rem;
+    height: 80%;
+    z-index: -3;
+    animation: spreadSmudge .5s forwards ease-out;
+
+    @keyframes spreadSmudge {
+        100% {
+            height: 90%;
+        }
+    }
+}
+
+.trash-cans {
+    position: absolute;
+    bottom: 6rem;
+    right:50%;
+    height: 33%;
+    z-index: -1;
+    transform: translateY(-30%);
+}
+
+.garbage-truck {
+    position: absolute;
+    top: 50%;
+    bottom: 7rem;
+    right: 5%;
+    height: 45%;
+    z-index: -2;
+    transform: translateY(-50%);
+    animation: driveIn .5s forwards ease-out;
+
+    @keyframes driveIn {
+        100% {
+            right: 0rem;
+        }
+    }
+}
+

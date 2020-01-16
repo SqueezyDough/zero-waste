@@ -1,0 +1,159 @@
+<section class="compare-waste">
+    <div class="compare-waste__inner">
+        <h2>Wanneer wordt het afval opgehaald?</h2>
+        <p class="compare-waste__inner__text">
+            In deze datavisualisatie wordt de hoeveelheid afval weer gegeven.
+            De data is momenteel nog niet compleet voor heel Amsterdam. Als meer vuilnishandelaren meedoen,
+            krijgen wij een duidelijker beeld van het bedrijfsafval in Amsterdam.
+        </p>
+
+        <ol id="districtsDropdown" class="districts-dropdown"></ol>
+
+        <button onclick="update(data1)">Variable 1</button>
+        <button onclick="update(data2)">Variable 2</button>
+
+        <div id="compareWasteChart" class="compare-waste__inner__chart"></div>
+    </div>
+</section>
+
+<script>
+
+d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
+    const data = rawData.objects.buurten.geometries;
+
+    const totalWaste = countTotalWaste(data);
+
+    update(totalWaste)
+})
+
+function countTotalWaste(data) {
+    const totalWastePerDay = [
+        {
+            day: "ma",
+            district: "Amsterdam",
+            value: 0
+        },
+        {
+            day: "di",
+            district: "Amsterdam",
+            value: 0
+        },
+        {
+            day: "woe",
+            district: "Amsterdam",
+            value: 0
+        },
+        {
+            day: "do",
+            district: "Amsterdam",
+            value: 0
+        },
+        {
+            day: "vr",
+            district: "Amsterdam",
+            value: 0
+        },
+        {
+            day: "zat",
+            district: "Amsterdam",
+            value: 0
+        },
+        {
+            day: "zo",
+            district: "Amsterdam",
+            value: 0
+        },
+    ]
+
+    data.forEach( district => {
+        totalWastePerDay.forEach( (item) => {
+            const currentDay = item.day;
+
+            totalWastePerDay.find(item => item.day === currentDay).value += district.properties.waste[currentDay]
+        })
+    })
+
+    return totalWastePerDay;
+}
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#compareWasteChart")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Initialize the X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .padding(0.2);
+var xAxis = svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+
+// Initialize the Y axis
+var y = d3.scaleLinear()
+  .range([ height, 0]);
+var yAxis = svg.append("g")
+  .attr("class", "myYaxis")
+
+
+// A function that create / update the plot for a given variable:
+function update(data) {
+
+    //console.log(data)
+
+    // TODO: gemiddelde uitrekenen
+
+    let amount = 0;
+
+    data.forEach( item => {
+        amount += item.value;
+        return amount;
+    })
+
+    const average = amount / 99;
+
+    console.log(data)
+    console.log(amount)
+
+    // Update the X axis
+    x.domain(data.map(function(d) { return d.day }))
+    xAxis.call(d3.axisBottom(x))
+
+    // Update the Y axis
+    y.domain([0, d3.max(data, function(d) { return d.value }) ]);
+    yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+    // Create the u variable
+    var u = svg.selectAll("rect")
+        .data(data)
+
+    u
+        .enter()
+        .append("rect") // Add a new rect for each new elements
+        .merge(u) // get the already existing elements as well
+        .transition() // and apply changes to all of them
+        .duration(1000)
+        .attr("x", function(d) { return x(d.day); })
+        .attr("y", function(d) { return y(d.value); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d.value); })
+        .attr("fill", "#69b3a2")
+
+    // If less group in the new dataset, I delete the ones not in use anymore
+    u
+        .exit()
+        .remove()
+}
+
+// Initialize the plot with the first dataset
+
+
+</script>
