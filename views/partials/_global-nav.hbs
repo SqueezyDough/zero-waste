@@ -1,10 +1,64 @@
 <nav class="global-nav">
-    <h1 class="global-nav__header">Zero Waste</h1>
-    <ul class="global-nav__menu">
-        <li><a href="#">Zero Waste</a></li>
-        <li><a href="#">Transparantie</a></li>
-        <li><a href="#">Kaart</a></li>
-        <li><a href="#">Route</a></li>
-        <li><a href="#">Doe mee</a></li>
-    </ul>
+    <div class="global-nav__main">
+        <h1 class="global-nav__main__header">Zero Waste</h1>
+        <ul class="global-nav__main__menu">
+            <li><a href="#">Zero Waste</a></li>
+            <li><a href="#">Transparantie</a></li>
+            <li><a href="#">Kaart</a></li>
+            <li><a href="#">Route</a></li>
+            <li><a href="#">Doe mee</a></li>
+        </ul>
+    </div>
+
+    <div class="global-nav__sub">
+        <ol class="global-nav__sub__menu">
+            <li><button id="inputMaandag" value="Maandag">Maandag</button></li>
+            <li><button id="inputDinsdag" value="Dinsdag">Dinsdag</button></li>
+            <li><button id="inputWoendag" value="Woendag">Woendag</button></li>
+            <li><button id="inputDonderdag" value="Donderdag">Donderdag</button></li>
+            <li><button id="inputVrijdag"value="Vrijdag">Vrijdag</button></li>
+            <li><button id="inputZaterdag" value="Zaterdag">Zaterdag</button></li>
+            <li><button id="inputZondag" value="Zondag">Zondag</button></li>
+        </ol>
+
+        <div class="dropdown-container">
+            <div id="districtsDropdownSelections" class="dropdown-values">Selecties</div>
+            <ol id="districtsDropdown" class="dropdown--multi-level"></ol>
+        </div>
+    </div>
 </nav>
+
+<script>
+// change header on scroll
+window.addEventListener('scroll', function(e) {
+    resizeMainNav();
+    toggleSubNav();
+});
+
+function resizeMainNav() {
+    const globalNav = document.querySelector('.global-nav__main');
+
+    if (document.documentElement.scrollTop > 50) {
+        globalNav.classList.add('global-nav--shrink')
+    } else {
+        globalNav.classList.remove('global-nav--shrink')
+    }
+}
+
+function toggleSubNav() {
+    const subNav = document.querySelector('.global-nav__sub');
+
+    const map = document.querySelector('.map')
+    const rectA = map.getBoundingClientRect();
+
+    const participate = document.querySelector('.participate')
+    const rectB = participate.getBoundingClientRect();
+   
+
+    if (rectA.top <= 80 && rectB.top >= 150) {
+        subNav.classList.remove("hidden");
+    } else {
+        subNav.classList.add("hidden"); 
+    }
+}
+</script>

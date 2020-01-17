@@ -91,85 +91,110 @@ input[type="submit"] {
     transition: 0.2s all; }
 
 .dropdown--multi-level {
-  display: none; }
+  display: none;
+  position: absolute;
+  min-width: 400px;
+  max-height: 82vh;
+  overflow-y: auto; }
   .dropdown--multi-level:hover {
     display: block; }
-  .dropdown--multi-level > li ul, .dropdown--multi-level > li ol {
-    display: none;
-    padding: 0;
-    margin: 0;
-    left: 100%;
-    top: 0;
-    list-style-type: none; }
-    .dropdown--multi-level > li ul li, .dropdown--multi-level > li ol li {
-      display: flex;
-      padding: .5rem;
-      background-color: #ffda80; }
-      .dropdown--multi-level > li ul li label, .dropdown--multi-level > li ol li label {
-        font-family: "Poppins-regular", Arial, sans-serif;
-        user-select: none; }
-        .dropdown--multi-level > li ul li label::before, .dropdown--multi-level > li ol li label::before {
-          content: "";
-          display: inline-block;
-          height: 1rem;
-          width: 1rem;
-          margin-right: .5rem;
-          border: 2px solid #273e66;
-          background-color: transparent;
-          cursor: pointer;
-          transform: translateY(10%); }
-      .dropdown--multi-level > li ul li input[type=checkbox], .dropdown--multi-level > li ol li input[type=checkbox] {
-        width: initial;
-        visibility: hidden;
-        margin-left: -1rem; }
-        .dropdown--multi-level > li ul li input[type=checkbox]:checked + label::before, .dropdown--multi-level > li ol li input[type=checkbox]:checked + label::before {
-          background-color: #273e66; }
-  .dropdown--multi-level > li > label {
-    display: block;
-    position: relative;
-    padding: .5rem;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    user-select: none;
-    cursor: pointer;
-    transition: 0.2s all; }
-    .dropdown--multi-level > li > label::after {
-      content: '';
+  .dropdown--multi-level > li {
+    background-color: #fffadd; }
+    .dropdown--multi-level > li ul, .dropdown--multi-level > li ol {
+      display: none;
+      padding: 0;
+      margin: 0;
+      max-height: 15rem;
+      overflow-y: auto;
+      left: 100%;
+      top: 0;
+      list-style-type: none; }
+      .dropdown--multi-level > li ul li, .dropdown--multi-level > li ol li {
+        display: flex;
+        padding: .5rem;
+        background-color: #ffda80; }
+        .dropdown--multi-level > li ul li label, .dropdown--multi-level > li ol li label {
+          font-family: "Poppins-regular", Arial, sans-serif;
+          user-select: none; }
+          .dropdown--multi-level > li ul li label::before, .dropdown--multi-level > li ol li label::before {
+            content: "";
+            display: inline-block;
+            height: 1rem;
+            width: 1rem;
+            margin-right: .5rem;
+            border: 2px solid #273e66;
+            background-color: transparent;
+            cursor: pointer;
+            transform: translateY(10%); }
+        .dropdown--multi-level > li ul li input[type=checkbox], .dropdown--multi-level > li ol li input[type=checkbox] {
+          width: initial;
+          visibility: hidden;
+          margin: 0;
+          margin-left: -1rem; }
+          .dropdown--multi-level > li ul li input[type=checkbox]:checked + label::before, .dropdown--multi-level > li ol li input[type=checkbox]:checked + label::before {
+            background-color: #273e66; }
+    .dropdown--multi-level > li > label {
       display: block;
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      width: 1rem;
-      height: 1rem;
-      background-image: url("../../static/images/icons/carrot.svg");
-      background-position: center center;
-      background-repeat: no-repeat;
-      transform: rotate(90deg) translate(-50%);
-      transform-origin: center;
+      position: relative;
+      padding: .5rem;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      user-select: none;
+      cursor: pointer;
       transition: 0.2s all; }
-    .dropdown--multi-level > li > label:not(:last-child) {
-      border-bottom: 1px solid #273e66; }
-    .dropdown--multi-level > li > label:hover {
-      background-color: #ffb500; }
-  .dropdown--multi-level > li > input[type=checkbox] {
-    position: absolute;
-    visibility: hidden;
-    pointer-events: none;
-    box-shadow: none; }
-    .dropdown--multi-level > li > input[type=checkbox]:checked + label {
-      background-color: #ffb500; }
-      .dropdown--multi-level > li > input[type=checkbox]:checked + label::after {
-        transform: rotate(-90deg) translate(50%); }
-    .dropdown--multi-level > li > input[type=checkbox]:checked ~ ul, .dropdown--multi-level > li > input[type=checkbox]:checked ~ ol {
-      display: block; }
+      .dropdown--multi-level > li > label::after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        width: 1rem;
+        height: 1rem;
+        background-image: url("../../static/images/icons/carrot.svg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        transform: rotate(90deg) translate(-50%);
+        transform-origin: center;
+        transition: 0.2s all; }
+      .dropdown--multi-level > li > label:not(:last-child) {
+        border-bottom: 1px solid #273e66; }
+      .dropdown--multi-level > li > label:hover {
+        background-color: #ffb500; }
+    .dropdown--multi-level > li > input[type=checkbox] {
+      position: absolute;
+      visibility: hidden;
+      pointer-events: none;
+      box-shadow: none; }
+      .dropdown--multi-level > li > input[type=checkbox]:checked + label {
+        background-color: #ffb500; }
+        .dropdown--multi-level > li > input[type=checkbox]:checked + label::after {
+          transform: rotate(-90deg) translate(50%); }
+      .dropdown--multi-level > li > input[type=checkbox]:checked ~ ul, .dropdown--multi-level > li > input[type=checkbox]:checked ~ ol {
+        display: block; }
 
 .dropdown-values {
+  position: relative;
   padding: .5rem;
   border: 2px solid #273e66;
   border-radius: 0 5px 5px 0;
-  text-align: left; }
+  text-align: left;
+  min-width: 20rem; }
+  .dropdown-values::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    background-image: url("../../static/images/icons/carrot.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    transform: rotate(90deg) translate(-50%);
+    transform-origin: center;
+    transition: 0.2s all; }
   .dropdown-values:hover {
     background-color: #e6a300; }
     .dropdown-values:hover ~ #districtsDropdown {
@@ -178,11 +203,27 @@ input[type="submit"] {
     display: block; }
 
 .global-nav {
+  position: relative;
+  z-index: 1000; }
+
+.global-nav__main {
   display: flex;
   justify-content: space-between;
-  padding: 0 5%; }
+  width: 100%;
+  position: fixed;
+  padding: 0 5%;
+  background-color: #fffadd;
+  box-sizing: border-box;
+  z-index: 999; }
+  .global-nav__main.global-nav--shrink {
+    background-color: #fff; }
+    .global-nav__main.global-nav--shrink .global-nav__main__header {
+      background-color: transparent;
+      box-shadow: none;
+      padding: .5rem 2rem;
+      color: #273e66; }
 
-.global-nav__header {
+.global-nav__main__header {
   margin: 0;
   padding: 1rem 2rem;
   background-color: #4490b4;
@@ -190,22 +231,65 @@ input[type="submit"] {
   box-shadow: 6px 6px #273e66;
   color: #fff;
   text-transform: uppercase;
-  font-size: 2rem; }
+  font-size: 2rem;
+  transition: 0.2s all; }
 
-.global-nav__menu {
+.global-nav__main__menu {
   display: flex;
   align-items: center;
   list-style-type: none; }
-  .global-nav__menu li:not(:nth-last-child(1)) {
+  .global-nav__main__menu li:not(:nth-last-child(1)) {
     margin-right: 2rem; }
-  .global-nav__menu a {
+  .global-nav__main__menu a {
     font-family: "Poppins-semibold", Arial, sans-serif;
     font-size: 1rem;
     text-transform: uppercase;
     text-decoration: none;
     color: #273e66;
     transition: all 0.2s; }
-    .global-nav__menu a:hover {
+    .global-nav__main__menu a:hover {
+      color: #ffb500; }
+
+.global-nav__sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  padding: 0 5% 0 calc(1.5rem + 5%);
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 998;
+  transition: 0.2s all;
+  animation: show 0.2s forwards; }
+  .global-nav__sub.hidden {
+    animation: hide .5s forwards; }
+
+@keyframes show {
+  from {
+    top: 0px; }
+  to {
+    top: 61px; } }
+
+@keyframes hide {
+  from {
+    top: 61px; }
+  to {
+    top: -100px;
+    visibility: hidden; } }
+
+.global-nav__sub__menu {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  color: #273e66; }
+  .global-nav__sub__menu button {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-family: "Poppins-semibold", Arial, sans-serif;
+    color: #273e66; }
+    .global-nav__sub__menu button:hover {
       color: #ffb500; }
 
 .intro__inner {
