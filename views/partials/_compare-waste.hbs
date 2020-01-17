@@ -7,10 +7,10 @@
             krijgen wij een duidelijker beeld van het bedrijfsafval in Amsterdam.
         </p>
 
-        <ol id="districtsDropdown" class="districts-dropdown"></ol>
-
-        <button onclick="update(data1)">Variable 1</button>
-        <button onclick="update(data2)">Variable 2</button>
+        <div id="districtsDropdownSelections" class="dropdown-values">
+            Selecties
+        </div>
+        <ol id="districtsDropdown" class="dropdown--multi-level"></ol>
 
         <div id="compareWasteChart" class="compare-waste__inner__chart"></div>
     </div>
@@ -20,14 +20,106 @@
 
 d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
     const data = rawData.objects.buurten.geometries;
+    const districtAveragePerDay = calculateAverage(data);
 
-    const totalWaste = countTotalWaste(data);
-
-    update(totalWaste)
+    populateDistrictsDropdown(data)
+    update(districtAveragePerDay)
 })
 
-function countTotalWaste(data) {
-    const totalWastePerDay = [
+function populateDistrictsDropdown(data) {
+    const dropdown = document.getElementById('districtsDropdown');
+
+    const districts = [ {A: 'Centrum'}, {B: 'Westpoort'}, {E: 'West'}, {M: 'Oost'}, {K: 'Zuid'}, {F: 'Nieuw west'}, {N: 'Noord'}, {T: 'Zuidoost'} ];
+
+    const sortedDistricts = districts.sort(function(a, b) {
+        a = Object.values(a);
+        b = Object.values(b);
+
+        if (a < b) return -1
+        if (a > b) return 1
+    });
+
+    sortedDistricts.forEach(district => {
+        // create list elements for districts
+        const districtListElement = document.createElement('li');
+
+        // create checkbox element
+        const districtCheckboxElement = document.createElement('input');
+            districtCheckboxElement.setAttribute('type', 'checkbox');
+            districtCheckboxElement.setAttribute('id', `${Object.values(district)}`);
+
+        // create label for checkbox
+        const districtLabelElement = document.createElement('label');
+            districtLabelElement.textContent = Object.values(district);
+            districtLabelElement.setAttribute('for', `${Object.values(district)}`);
+
+        // append elements
+        districtListElement.appendChild(districtCheckboxElement);
+        districtListElement.appendChild(districtLabelElement);
+
+        // filter all neighhborhoods
+        const neighborhoods = data.filter(item => item.properties.Stadsdeel_code == Object.keys(district)[0])
+
+        if (neighborhoods) {
+            // create a new list for children
+            const neighborhoodListContainer = document.createElement('ol');
+
+            neighborhoods.forEach(neighborhood => {
+                const neighborhoodListElement = document.createElement('li');
+
+                // create checkbox element
+                const neighborhoodCheckboxElement = document.createElement('input');
+                    neighborhoodCheckboxElement.setAttribute('type', 'checkbox');
+                    neighborhoodCheckboxElement.setAttribute('id', `${neighborhood.properties.Buurtcombinatie}`);
+                    neighborhoodCheckboxElement.setAttribute('class', 'neighborhood-input');
+                    neighborhoodCheckboxElement.setAttribute('data-name', `${neighborhood.properties.Buurtcombinatie}`);
+                    neighborhoodCheckboxElement.setAttribute('data-id', `${neighborhood.properties.Buurtcombinatie_code}`);
+
+                // create label for checkbox
+                const neighborhoodLabelElement = document.createElement('label');
+                    neighborhoodLabelElement.textContent = neighborhood.properties.Buurtcombinatie;
+                    neighborhoodLabelElement.setAttribute('for', `${neighborhood.properties.Buurtcombinatie}`);
+
+                // append elements
+                neighborhoodListElement.appendChild(neighborhoodCheckboxElement);
+                neighborhoodListElement.appendChild(neighborhoodLabelElement);
+                neighborhoodListContainer.appendChild(neighborhoodListElement);
+            });
+
+            // append container
+            districtListElement.appendChild(neighborhoodListContainer)
+        }
+
+        dropdown.appendChild(districtListElement)
+    });
+
+    addEventListeners();
+}
+
+function addEventListeners() {
+    const inputs = document.querySelectorAll(".neighborhood-input");
+
+    inputs.forEach( input => {
+        input.addEventListener('change', event => {
+            const selectionsContainer = document.getElementById("districtsDropdownSelections");
+            const inputName = input.getAttribute('data-name');
+            const inputId = input.getAttribute('data-id');
+
+            if (input.checked) {
+                const selectionLabel = document.createElement('label');
+                selectionLabel.textContent = inputName;
+                selectionLabel.setAttribute('id', `select-${inputId}`)
+                selectionsContainer.append(selectionLabel);
+            } else {
+                const removeElement = document.getElementById(`select-${inputId}`);
+                selectionsContainer.removeChild(removeElement);
+            }
+        })
+    })
+}
+
+function calculateAverage(data) {
+    const averagePerDay = [
         {
             day: "ma",
             district: "Amsterdam",
@@ -66,14 +158,20 @@ function countTotalWaste(data) {
     ]
 
     data.forEach( district => {
-        totalWastePerDay.forEach( (item) => {
+        averagePerDay.forEach( (item) => {
             const currentDay = item.day;
-
-            totalWastePerDay.find(item => item.day === currentDay).value += district.properties.waste[currentDay]
+            averagePerDay.find(item => item.day === currentDay).value += district.properties.waste[currentDay];
         })
     })
 
-    return totalWastePerDay;
+    averagePerDay.forEach( item => {
+            const totalAmount = item.value;
+            const average = Math.floor(totalAmount / data.length);
+
+            item.value = average;
+    });
+
+    return averagePerDay;
 }
 
 // set the dimensions and margins of the graph
@@ -109,20 +207,6 @@ function update(data) {
 
     //console.log(data)
 
-    // TODO: gemiddelde uitrekenen
-
-    let amount = 0;
-
-    data.forEach( item => {
-        amount += item.value;
-        return amount;
-    })
-
-    const average = amount / 99;
-
-    console.log(data)
-    console.log(amount)
-
     // Update the X axis
     x.domain(data.map(function(d) { return d.day }))
     xAxis.call(d3.axisBottom(x))
@@ -152,8 +236,4 @@ function update(data) {
         .exit()
         .remove()
 }
-
-// Initialize the plot with the first dataset
-
-
 </script>

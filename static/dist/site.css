@@ -65,8 +65,7 @@ input[type="submit"] {
   border-radius: 0 5px 5px 0;
   transition: 0.2s ease all; }
   input[type="submit"]:hover {
-    box-shadow: 5px 5px 0 0 #ffb500;
-    cursor: pointer; }
+    box-shadow: 5px 5px 0 0 #ffb500; }
 
 .input-text {
   font-size: 1rem; }
@@ -78,6 +77,105 @@ input[type="submit"] {
   font-size: 1rem;
   pointer-events: none;
   transition: 0.2s ease all; }
+
+.dropdown, .dropdown--multi-level {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  text-align: left;
+  border: 2px solid #273e66;
+  border-radius: 0 5px 5px 0; }
+  .dropdown > li, .dropdown--multi-level > li {
+    display: block;
+    position: relative;
+    transition: 0.2s all; }
+
+.dropdown--multi-level {
+  display: none; }
+  .dropdown--multi-level:hover {
+    display: block; }
+  .dropdown--multi-level > li ul, .dropdown--multi-level > li ol {
+    display: none;
+    padding: 0;
+    margin: 0;
+    left: 100%;
+    top: 0;
+    list-style-type: none; }
+    .dropdown--multi-level > li ul li, .dropdown--multi-level > li ol li {
+      display: flex;
+      padding: .5rem;
+      background-color: #ffda80; }
+      .dropdown--multi-level > li ul li label, .dropdown--multi-level > li ol li label {
+        font-family: "Poppins-regular", Arial, sans-serif;
+        user-select: none; }
+        .dropdown--multi-level > li ul li label::before, .dropdown--multi-level > li ol li label::before {
+          content: "";
+          display: inline-block;
+          height: 1rem;
+          width: 1rem;
+          margin-right: .5rem;
+          border: 2px solid #273e66;
+          background-color: transparent;
+          cursor: pointer;
+          transform: translateY(10%); }
+      .dropdown--multi-level > li ul li input[type=checkbox], .dropdown--multi-level > li ol li input[type=checkbox] {
+        width: initial;
+        visibility: hidden;
+        margin-left: -1rem; }
+        .dropdown--multi-level > li ul li input[type=checkbox]:checked + label::before, .dropdown--multi-level > li ol li input[type=checkbox]:checked + label::before {
+          background-color: #273e66; }
+  .dropdown--multi-level > li > label {
+    display: block;
+    position: relative;
+    padding: .5rem;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    user-select: none;
+    cursor: pointer;
+    transition: 0.2s all; }
+    .dropdown--multi-level > li > label::after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      width: 1rem;
+      height: 1rem;
+      background-image: url("../../static/images/icons/carrot.svg");
+      background-position: center center;
+      background-repeat: no-repeat;
+      transform: rotate(90deg) translate(-50%);
+      transform-origin: center;
+      transition: 0.2s all; }
+    .dropdown--multi-level > li > label:not(:last-child) {
+      border-bottom: 1px solid #273e66; }
+    .dropdown--multi-level > li > label:hover {
+      background-color: #ffb500; }
+  .dropdown--multi-level > li > input[type=checkbox] {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    box-shadow: none; }
+    .dropdown--multi-level > li > input[type=checkbox]:checked + label {
+      background-color: #ffb500; }
+      .dropdown--multi-level > li > input[type=checkbox]:checked + label::after {
+        transform: rotate(-90deg) translate(50%); }
+    .dropdown--multi-level > li > input[type=checkbox]:checked ~ ul, .dropdown--multi-level > li > input[type=checkbox]:checked ~ ol {
+      display: block; }
+
+.dropdown-values {
+  padding: .5rem;
+  border: 2px solid #273e66;
+  border-radius: 0 5px 5px 0;
+  text-align: left; }
+  .dropdown-values:hover {
+    background-color: #e6a300; }
+    .dropdown-values:hover ~ #districtsDropdown {
+      display: block; }
+  .dropdown-values label {
+    display: block; }
 
 .global-nav {
   display: flex;
@@ -238,6 +336,7 @@ input[type="submit"] {
 
 .compare-waste__inner {
   grid-column: col2 / col6;
+  position: relative;
   padding: 0 10%;
   text-align: center; }
 
