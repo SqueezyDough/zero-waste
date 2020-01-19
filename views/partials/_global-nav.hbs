@@ -14,7 +14,7 @@
         <ol class="global-nav__sub__menu">
             <li><button id="inputMaandag" value="Maandag">Maandag</button></li>
             <li><button id="inputDinsdag" value="Dinsdag">Dinsdag</button></li>
-            <li><button id="inputWoendag" value="Woendag">Woendag</button></li>
+            <li><button id="inputWoendag" value="Woendag">Woensdag</button></li>
             <li><button id="inputDonderdag" value="Donderdag">Donderdag</button></li>
             <li><button id="inputVrijdag"value="Vrijdag">Vrijdag</button></li>
             <li><button id="inputZaterdag" value="Zaterdag">Zaterdag</button></li>
@@ -22,13 +22,350 @@
         </ol>
 
         <div class="dropdown-container">
-            <div id="districtsDropdownSelections" class="dropdown-values">Selecties</div>
+            <div id="districtsDropdownSelections" class="dropdown-values">
+                <label class="user-select-default">Amsterdam</label>
+            </div>
             <ol id="districtsDropdown" class="dropdown--multi-level"></ol>
         </div>
     </div>
 </nav>
 
+<script type="module">
+let userSelectList = [];
+let availableColorList = ["2ec7a4", "ffb500", "4490b4"];
+
+d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
+    const data = rawData.objects.buurten.geometries;
+
+    // count the data that is not empty
+    const validDataCount = data.map(item => {
+        return Object.values(item.properties.waste).every( key => {
+            return Object.values(item.properties.waste)[key] !== 0;
+        });
+    }).filter( item => item).length;
+
+    const compareWaste = calculateWaste(data, validDataCount);
+
+    populateDistrictsDropdown(data, compareWaste)
+    update(compareWaste)
+})
+
+let margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 600 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+let svg = d3.select("#compareWasteChart")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Initialize the X axis
+let x = d3.scaleBand()
+  .range([ 0, width ])
+  .padding([0.2])
+
+let xSubgroup = d3.scaleBand()
+  .range([0, x.bandwidth()])
+  .padding([0.05])
+
+let xAxis = svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+
+// Initialize the Y axis
+let y = d3.scaleLinear()
+  .range([ height, 0]);
+let yAxis = svg.append("g")
+  .attr("class", "myYaxis")
+
+
+// A function that create / update the plot for a given letiable:
+function update(data) {
+    // List of groups = species here = value of the first column called group -> I show them on the X axis
+    let groups = data.map( function(d){ return(d.day)});
+
+    // List of subgroups = header of the csv files = soil condition here
+    let subgroups = data[0].districts.map( function(d) {return d.district});
+
+    // Update the X axis
+    x.domain(groups)
+        .range([ 0, width ]);
+    xSubgroup.domain(subgroups)
+        .range([0, x.bandwidth()]);
+
+    xAxis.call(d3.axisBottom(x).tickSize(0))
+
+    // Update the Y axis
+    y.domain([0, d3.max(data, function(d) { return d3.max(d.districts, function(d) { return d.value; }); })]);
+    yAxis.call(d3.axisLeft(y));
+
+
+    let group = svg.selectAll(".group")
+        .data(data)
+
+    group
+        .enter()
+        .append("g")
+        .merge(group)
+        .attr("transform", function(d) {return "translate(" + x(d.day) + ",0)"})
+        .attr("class", "group")
+
+    let rect = svg.selectAll(".group").selectAll("rect")
+        .data(function(d) {
+            return subgroups.map(function(key) {
+                const currentDistrict = d.districts.find(obj => obj.district == key);
+                return {key: currentDistrict.district, value: currentDistrict.value, day: d.day, color: currentDistrict.color};
+            });
+        })
+
+    rect
+        .enter()
+        .append("rect")
+        .merge(rect)
+        .attr("x", function(d) { return xSubgroup(d.key) })
+        .attr("fill", function(d) { return `#${d.color}` })
+        .attr("width", xSubgroup.bandwidth())
+        .attr("height", function(d) { return height - y(0); }) // always equal to 0
+        .attr("y", function(d) { return y(0); })
+
+    svg.selectAll("rect")
+        .transition()
+        .duration(800)
+        .attr("y", function(d) { return y(d.value) })
+        .attr("height", function(d) { return height - y(d.value) })
+        .delay(function(d,i){ return(i*50) })
+
+    rect.exit().remove();
+
+}
+
+function populateDistrictsDropdown(data, compareWaste) {
+    const dropdown = document.getElementById('districtsDropdown');
+
+    const districts = [ {A: 'Centrum'}, {B: 'Westpoort'}, {E: 'West'}, {M: 'Oost'}, {K: 'Zuid'}, {F: 'Nieuw west'}, {N: 'Noord'}, {T: 'Zuidoost'} ];
+
+    const sortedDistricts = districts.sort(function(a, b) {
+        a = Object.values(a);
+        b = Object.values(b);
+
+        if (a < b) return -1
+        if (a > b) return 1
+    });
+
+    sortedDistricts.forEach(district => {
+        // create list elements for districts
+        const districtListElement = document.createElement('li');
+
+        // create checkbox element
+        const districtCheckboxElement = document.createElement('input');
+            districtCheckboxElement.setAttribute('type', 'checkbox');
+            districtCheckboxElement.setAttribute('id', `${Object.values(district)}`);
+
+        // create label for checkbox
+        const districtLabelElement = document.createElement('label');
+            districtLabelElement.textContent = Object.values(district);
+            districtLabelElement.setAttribute('for', `${Object.values(district)}`);
+
+        // append elements
+        districtListElement.appendChild(districtCheckboxElement);
+        districtListElement.appendChild(districtLabelElement);
+
+        // filter all neighhborhoods
+        const neighborhoods = data.filter(item => item.properties.Stadsdeel_code == Object.keys(district)[0])
+
+        if (neighborhoods) {
+            // create a new list for children
+            const neighborhoodListContainer = document.createElement('ol');
+
+            neighborhoods.forEach(neighborhood => {
+                const neighborhoodListElement = document.createElement('li');
+
+                // create checkbox element
+                const neighborhoodCheckboxElement = document.createElement('input');
+                    neighborhoodCheckboxElement.setAttribute('type', 'checkbox');
+                    neighborhoodCheckboxElement.setAttribute('id', `${neighborhood.properties.Buurtcombinatie}`);
+                    neighborhoodCheckboxElement.setAttribute('class', 'neighborhood-input');
+                    neighborhoodCheckboxElement.setAttribute('data-name', `${neighborhood.properties.Buurtcombinatie}`);
+                    neighborhoodCheckboxElement.setAttribute('data-id', `${neighborhood.properties.Buurtcombinatie_code}`);
+
+                // create label for checkbox
+                const neighborhoodLabelElement = document.createElement('label');
+                    neighborhoodLabelElement.textContent = neighborhood.properties.Buurtcombinatie;
+                    neighborhoodLabelElement.setAttribute('for', `${neighborhood.properties.Buurtcombinatie}`);
+
+                // append elements
+                neighborhoodListElement.appendChild(neighborhoodCheckboxElement);
+                neighborhoodListElement.appendChild(neighborhoodLabelElement);
+                neighborhoodListContainer.appendChild(neighborhoodListElement);
+            });
+
+            // append container
+            districtListElement.appendChild(neighborhoodListContainer)
+        }
+
+        dropdown.appendChild(districtListElement)
+    });
+
+    addEventListeners(data, compareWaste);
+}
+
+function addEventListeners(data, compareWaste) {
+    const inputs = document.querySelectorAll(".neighborhood-input");
+
+    inputs.forEach( input => {
+        createEventListener(data, input, compareWaste);
+    });
+}
+
+function createEventListener(data, input, compareWaste) {
+    input.addEventListener('change', event => {
+        const selectionsContainer = document.getElementById("districtsDropdownSelections");
+        const inputName = input.getAttribute('data-name');
+        const inputId = input.getAttribute('data-id');
+
+        if (input.checked) {
+            // assign id and color, always picks the first available color
+            const newSelection = {
+                id: inputId,
+                color: availableColorList[0]
+            }
+
+            // push selection
+            userSelectList.push(newSelection);
+
+            // make color unavailable
+            availableColorList.shift();
+
+            input.nextElementSibling.classList.add(`user-select-${newSelection.color}`)
+
+            // create elements
+            const selectionLabel = document.createElement('label');
+            selectionLabel.textContent = inputName;
+            selectionLabel.setAttribute('id', `select-${inputId}`);
+            selectionLabel.classList.add(`user-select-${newSelection.color}`)
+            selectionsContainer.append(selectionLabel);
+        } else {
+            // find item in list
+            let selectionInList = userSelectList.find( neighborhood => neighborhood.id === inputId );
+
+            // remove item from list
+            // make color available
+            if (selectionInList) {
+                const index = userSelectList.indexOf(selectionInList);
+                availableColorList.push(selectionInList.color);
+
+                if (index > -1) userSelectList.splice(index, 1);
+
+                const removeElement = document.getElementById(`select-${inputId}`);
+                selectionsContainer.removeChild(removeElement);
+
+                input.nextElementSibling.classList.remove(`user-select-${selectionInList.color}`)
+            }
+        }
+
+        // update data for selections
+        const updatedData = updateData(data, userSelectList, compareWaste);
+    })
+}
+
+function updateData(data, userSelections, compareWaste) {
+
+    // find districts in dataset
+    const selectedDistricts = userSelections.map(selection => {
+        const selectedDistrict = data.find(district => {
+            return district.properties.Buurtcombinatie_code === selection.id;
+        });
+
+        selectedDistrict.properties.color = selection.color;
+
+        return selectedDistrict;
+    });
+
+    const districtAverage = compareDistricts(selectedDistricts, compareWaste);
+
+    //update(districtAverage);
+}
+
+function calculateWaste(data, divisor) {
+    const days = ['ma', 'di', 'woe', 'do', 'vr', 'zat', 'zo'];
+
+    // create template objects
+    const valuesPerDay = days.map( dayName => {
+        let dayTotal = {
+            day: dayName,
+            districts: [
+                {
+                    district: "Amsterdam",
+                    value: 0,
+                    color: '273e66',
+                }
+            ]
+        }
+
+        return dayTotal;
+    });
+
+    valuesPerDay.forEach (item => {
+         const currentDay = item.day;
+
+         data.forEach(district => {
+            item.districts[0].value += district.properties.waste[currentDay];
+            // => total waste for this day
+         });
+
+        item.districts[0].value = Math.floor(item.districts[0].value / divisor);
+        // => average waste for this day
+    })
+
+    return valuesPerDay;
+}
+
+// Add or remove user selections
+function compareDistricts(compareData, currentSelectList) {
+    currentSelectList.forEach(currentDay => {
+        compareData.forEach(newDistrict => {
+            const isInList = Object.keys(currentDay.districts).some( key => {
+                return currentDay.districts[key].district === newDistrict.properties.Buurtcombinatie;
+            });
+
+            // only push if not in list
+            if (!isInList) {
+                const selectedDistrict = {
+                    district: newDistrict.properties.Buurtcombinatie,
+                    value: newDistrict.properties.waste[currentDay.day],
+                    color: newDistrict.properties.color
+                }
+
+                currentDay.districts.push(selectedDistrict);
+            } else {
+                currentDay.districts.forEach(currentList => {
+
+                    const inSelectionList = Object.keys(compareData).some( key => {
+                        return compareData[key].properties.Buurtcombinatie === currentList.district || currentList.district === 'Amsterdam';
+                    });
+
+                    if (!inSelectionList) {
+                        const index = currentDay.districts.indexOf(currentList);
+                        if (index > -1) {
+                            currentDay.districts.splice(index, 1);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    update(currentSelectList)
+}
+
+</script>
+
 <script>
+// script for global nav behaviour
+
 // change header on scroll
 window.addEventListener('scroll', function(e) {
     resizeMainNav();
@@ -53,12 +390,12 @@ function toggleSubNav() {
 
     const participate = document.querySelector('.participate')
     const rectB = participate.getBoundingClientRect();
-   
+
 
     if (rectA.top <= 80 && rectB.top >= 150) {
-        subNav.classList.remove("hidden");
+        subNav.classList.add("show");
     } else {
-        subNav.classList.add("hidden"); 
+        subNav.classList.remove("show");
     }
 }
 </script>

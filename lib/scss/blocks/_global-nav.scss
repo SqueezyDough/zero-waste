@@ -71,15 +71,18 @@
     background-color: rgba(255, 255, 255, .8);
     z-index: 998;
     transition: $transitionDuration all;
-    animation: show $transitionDuration forwards;
+    animation: hide .5s forwards;
 
-    &.hidden {
-        animation: hide .5s forwards;
+    &.show {
+        animation: show $transitionDuration forwards;
     }
 
     @keyframes show {
         from {top: 0px;}
-        to {top: 61px;}
+        to {
+            visibility: visible;
+            top: 61px;
+        }
     }
 
     @keyframes hide {
