@@ -8,6 +8,7 @@
     "lib": "lib"
   },
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "watch": "gulp watch",
     "compile": "node-sass lib/scss/site.scss static/dist/site.css"
