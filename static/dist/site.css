@@ -78,12 +78,21 @@ input[type="submit"] {
   pointer-events: none;
   transition: 0.2s ease all; }
 
+.dropdown-container {
+  position: absolute;
+  right: 0;
+  top: .5rem;
+  background-color: #e6e6e6;
+  border-radius: 0 5px 5px 0; }
+
 .dropdown, .dropdown--multi-level {
   padding: 0;
   margin: 0;
+  background-color: #fff;
   list-style-type: none;
   text-align: left;
-  border: 2px solid #273e66;
+  box-shadow: 5px 5px 0 0 #ffb500;
+  border-left: 1px solid #e6e6e6;
   border-radius: 0 5px 5px 0; }
   .dropdown > li, .dropdown--multi-level > li {
     display: block;
@@ -93,13 +102,13 @@ input[type="submit"] {
 .dropdown--multi-level {
   display: none;
   position: absolute;
-  min-width: 400px;
+  min-width: 20rem;
   max-height: 82vh;
   overflow-y: auto; }
   .dropdown--multi-level:hover {
     display: block; }
   .dropdown--multi-level > li {
-    background-color: #fffadd; }
+    background-color: #fff; }
     .dropdown--multi-level > li ul, .dropdown--multi-level > li ol {
       display: none;
       padding: 0;
@@ -164,7 +173,7 @@ input[type="submit"] {
         transform-origin: center;
         transition: 0.2s all; }
       .dropdown--multi-level > li > label:not(:last-child) {
-        border-bottom: 1px solid #273e66; }
+        border-bottom: 1px solid #ffb500; }
       .dropdown--multi-level > li > label:hover {
         background-color: #ffb500; }
     .dropdown--multi-level > li > input[type=checkbox] {
@@ -182,10 +191,11 @@ input[type="submit"] {
 .dropdown-values {
   position: relative;
   padding: .5rem;
-  border: 2px solid #273e66;
   border-radius: 0 5px 5px 0;
+  box-shadow: 5px 5px 0 0 #ffb500;
   text-align: left;
-  min-width: 20rem; }
+  min-width: 20rem;
+  box-sizing: border-box; }
   .dropdown-values::after {
     content: '';
     display: block;
@@ -214,6 +224,7 @@ input[type="submit"] {
       height: 1rem;
       margin-right: .5rem;
       border: 2px solid #273e66;
+      cursor: pointer;
       transform: translateY(20%); }
     .dropdown-values label.user-select-2ec7a4::before {
       background-color: #2ec7a4; }
@@ -238,12 +249,14 @@ input[type="submit"] {
   box-sizing: border-box;
   z-index: 999; }
   .global-nav__main.global-nav--shrink {
-    background-color: #fff; }
+    background-color: #ffb500; }
     .global-nav__main.global-nav--shrink .global-nav__main__header {
       background-color: transparent;
       box-shadow: none;
       padding: .5rem 2rem;
       color: #273e66; }
+    .global-nav__main.global-nav--shrink .global-nav__main__menu a:hover {
+      color: #fffadd; }
 
 .global-nav__main__header {
   margin: 0;
@@ -274,13 +287,11 @@ input[type="submit"] {
 
 .global-nav__sub {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
   position: fixed;
   padding: 0 5% 0 calc(1.5rem + 5%);
   box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #fff;
   z-index: 998;
   transition: 0.2s all;
   animation: hide .5s forwards; }
@@ -301,6 +312,13 @@ input[type="submit"] {
     top: -100px;
     visibility: hidden; } }
 
+.global-nav__sub__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%; }
+
 .global-nav__sub__menu {
   display: flex;
   list-style-type: none;
@@ -311,7 +329,8 @@ input[type="submit"] {
     border: none;
     font-size: 1rem;
     font-family: "Poppins-semibold", Arial, sans-serif;
-    color: #273e66; }
+    color: #273e66;
+    cursor: pointer; }
     .global-nav__sub__menu button:hover {
       color: #ffb500; }
 

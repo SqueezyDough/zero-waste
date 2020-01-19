@@ -11,21 +11,23 @@
     </div>
 
     <div class='global-nav__sub'>
-        <ol class='global-nav__sub__menu'>
-            <li><button id='inputMaandag' value='Maandag'>Maandag</button></li>
-            <li><button id='inputDinsdag' value='Dinsdag'>Dinsdag</button></li>
-            <li><button id='inputWoendag' value='Woendag'>Woensdag</button></li>
-            <li><button id='inputDonderdag' value='Donderdag'>Donderdag</button></li>
-            <li><button id='inputVrijdag'value='Vrijdag'>Vrijdag</button></li>
-            <li><button id='inputZaterdag' value='Zaterdag'>Zaterdag</button></li>
-            <li><button id='inputZondag' value='Zondag'>Zondag</button></li>
-        </ol>
+        <div class='global-nav__sub__inner'>
+            <ol class='global-nav__sub__menu'>
+                <li><button id='inputMaandag' value='Maandag'>Maandag</button></li>
+                <li><button id='inputDinsdag' value='Dinsdag'>Dinsdag</button></li>
+                <li><button id='inputWoendag' value='Woendag'>Woensdag</button></li>
+                <li><button id='inputDonderdag' value='Donderdag'>Donderdag</button></li>
+                <li><button id='inputVrijdag'value='Vrijdag'>Vrijdag</button></li>
+                <li><button id='inputZaterdag' value='Zaterdag'>Zaterdag</button></li>
+                <li><button id='inputZondag' value='Zondag'>Zondag</button></li>
+            </ol>
 
-        <div class='dropdown-container'>
-            <div id='districtsDropdownSelections' class='dropdown-values'>
-                <label class='user-select-default'>Amsterdam</label>
+            <div class='dropdown-container'>
+                <div id='districtsDropdownSelections' class='dropdown-values'>
+                    <label class='user-select-default'>Amsterdam</label>
+                </div>
+                <ol id='districtsDropdown' class='dropdown--multi-level'></ol>
             </div>
-            <ol id='districtsDropdown' class='dropdown--multi-level'></ol>
         </div>
     </div>
 </nav>

@@ -48,12 +48,22 @@ input[type="submit"] {
   transition: $transitionDuration ease all;
 }
 
+.dropdown-container {
+  position: absolute;
+  right: 0;
+  top: .5rem;
+  background-color: darken($white, 10%);
+  border-radius: 0 5px 5px 0;
+}
+
 .dropdown {
   padding: 0;
   margin: 0;
+  background-color: $white;
   list-style-type: none;
   text-align: left;
-  border: 2px solid $mainThemeColor;
+  box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+  border-left: 1px solid darken($white, 10%);
   border-radius: 0 5px 5px 0;
 
   > li {
@@ -68,7 +78,7 @@ input[type="submit"] {
 
   display: none;
   position: absolute;
-  min-width: 400px;
+  min-width: 20rem;
   max-height: 82vh;
   overflow-y: auto;
 
@@ -77,7 +87,7 @@ input[type="submit"] {
   }
 
   > li {
-    background-color: $primaryBackgroundColor;
+    background-color: $white;
 
     ul, ol {
       display: none;
@@ -165,7 +175,7 @@ input[type="submit"] {
 
 
       &:not(:last-child) {
-        border-bottom: 1px solid $mainThemeColor;
+        border-bottom: 1px solid $tertiaryThemeColor;
       }
 
       &:hover {
@@ -200,10 +210,11 @@ input[type="submit"] {
   @include carrot;
 
   padding: .5rem;
-  border: 2px solid $mainThemeColor;
   border-radius: 0 5px 5px 0;
+  box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
   text-align: left;
   min-width: 20rem;
+  box-sizing: border-box;
 
   &:hover {
     background-color: darken($tertiaryThemeColor, 5%);
@@ -224,6 +235,7 @@ input[type="submit"] {
       height: 1rem;
       margin-right: .5rem;
       border: 2px solid $mainThemeColor;
+      cursor: pointer;
       transform: translateY(20%)
     }
 
