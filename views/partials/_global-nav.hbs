@@ -1,38 +1,38 @@
-<nav class="global-nav">
-    <div class="global-nav__main">
-        <h1 class="global-nav__main__header">Zero Waste</h1>
-        <ul class="global-nav__main__menu">
-            <li><a href="#">Zero Waste</a></li>
-            <li><a href="#">Transparantie</a></li>
-            <li><a href="#">Kaart</a></li>
-            <li><a href="#">Route</a></li>
-            <li><a href="#">Doe mee</a></li>
+<nav class='global-nav'>
+    <div class='global-nav__main'>
+        <h1 class='global-nav__main__header'>Zero Waste</h1>
+        <ul class='global-nav__main__menu'>
+            <li><a href='#'>Zero Waste</a></li>
+            <li><a href='#'>Transparantie</a></li>
+            <li><a href='#'>Kaart</a></li>
+            <li><a href='#'>Route</a></li>
+            <li><a href='#'>Doe mee</a></li>
         </ul>
     </div>
 
-    <div class="global-nav__sub">
-        <ol class="global-nav__sub__menu">
-            <li><button id="inputMaandag" value="Maandag">Maandag</button></li>
-            <li><button id="inputDinsdag" value="Dinsdag">Dinsdag</button></li>
-            <li><button id="inputWoendag" value="Woendag">Woensdag</button></li>
-            <li><button id="inputDonderdag" value="Donderdag">Donderdag</button></li>
-            <li><button id="inputVrijdag"value="Vrijdag">Vrijdag</button></li>
-            <li><button id="inputZaterdag" value="Zaterdag">Zaterdag</button></li>
-            <li><button id="inputZondag" value="Zondag">Zondag</button></li>
+    <div class='global-nav__sub'>
+        <ol class='global-nav__sub__menu'>
+            <li><button id='inputMaandag' value='Maandag'>Maandag</button></li>
+            <li><button id='inputDinsdag' value='Dinsdag'>Dinsdag</button></li>
+            <li><button id='inputWoendag' value='Woendag'>Woensdag</button></li>
+            <li><button id='inputDonderdag' value='Donderdag'>Donderdag</button></li>
+            <li><button id='inputVrijdag'value='Vrijdag'>Vrijdag</button></li>
+            <li><button id='inputZaterdag' value='Zaterdag'>Zaterdag</button></li>
+            <li><button id='inputZondag' value='Zondag'>Zondag</button></li>
         </ol>
 
-        <div class="dropdown-container">
-            <div id="districtsDropdownSelections" class="dropdown-values">
-                <label class="user-select-default">Amsterdam</label>
+        <div class='dropdown-container'>
+            <div id='districtsDropdownSelections' class='dropdown-values'>
+                <label class='user-select-default'>Amsterdam</label>
             </div>
-            <ol id="districtsDropdown" class="dropdown--multi-level"></ol>
+            <ol id='districtsDropdown' class='dropdown--multi-level'></ol>
         </div>
     </div>
 </nav>
 
-<script type="module">
+<script type='module'>
 let userSelectList = [];
-let availableColorList = ["2ec7a4", "ffb500", "4490b4"];
+let availableColorList = ['2ec7a4', 'ffb500', '4490b4'];
 
 d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
     const data = rawData.objects.buurten.geometries;
@@ -55,32 +55,31 @@ let margin = {top: 30, right: 30, bottom: 70, left: 60},
     height = 500 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-let svg = d3.select("#compareWasteChart")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+let svg = d3.select('#compareWasteChart')
+    .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+        .attr('transform',
+            'translate(' + margin.left + ',' + margin.top + ')');
 
 // Initialize the X axis
 let x = d3.scaleBand()
-  .range([ 0, width ])
-  .padding([0.2])
+    .range([ 0, width ])
+    .padding([0.2])
 
 let xSubgroup = d3.scaleBand()
-  .range([0, x.bandwidth()])
-  .padding([0.05])
+    .range([0, x.bandwidth()])
+    .padding([0.15])
 
-let xAxis = svg.append("g")
-  .attr("transform", "translate(0," + height + ")")
+let xAxis = svg.append('g')
+    .attr('transform', 'translate(0,' + height + ')')
 
 // Initialize the Y axis
 let y = d3.scaleLinear()
-  .range([ height, 0]);
-let yAxis = svg.append("g")
-  .attr("class", "myYaxis")
-
+    .range([ height, 0]);
+let yAxis = svg.append('g')
+    .attr('class', 'myYaxis')
 
 // A function that create / update the plot for a given letiable:
 function update(data) {
@@ -100,20 +99,26 @@ function update(data) {
 
     // Update the Y axis
     y.domain([0, d3.max(data, function(d) { return d3.max(d.districts, function(d) { return d.value; }); })]);
-    yAxis.call(d3.axisLeft(y));
+    yAxis.call(d3.axisLeft(y))
+    .append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 6)
+        .attr('dy', '.71em')
+        .style('text-anchor', 'end')
+        .text('Hoeveelheid afvalzakken')
+        .attr('fill', 'black')
 
-
-    let group = svg.selectAll(".group")
+    let group = svg.selectAll('.group')
         .data(data)
 
     group
         .enter()
-        .append("g")
+        .append('g')
         .merge(group)
-        .attr("transform", function(d) {return "translate(" + x(d.day) + ",0)"})
-        .attr("class", "group")
+        .attr('transform', function(d) {return 'translate(' + x(d.day) + ',0)'})
+        .attr('class', 'group')
 
-    let rect = svg.selectAll(".group").selectAll("rect")
+    let rect = svg.selectAll('.group').selectAll('rect')
         .data(function(d) {
             return subgroups.map(function(key) {
                 const currentDistrict = d.districts.find(obj => obj.district == key);
@@ -123,19 +128,19 @@ function update(data) {
 
     rect
         .enter()
-        .append("rect")
+        .append('rect')
         .merge(rect)
-        .attr("x", function(d) { return xSubgroup(d.key) })
-        .attr("fill", function(d) { return `#${d.color}` })
-        .attr("width", xSubgroup.bandwidth())
-        .attr("height", function(d) { return height - y(0); }) // always equal to 0
-        .attr("y", function(d) { return y(0); })
+        .attr('x', function(d) { return xSubgroup(d.key) })
+        .attr('fill', function(d) { return `#${d.color}` })
+        .attr('width', xSubgroup.bandwidth())
+        .attr('height', function(d) { return height - y(0); }) // always equal to 0
+        .attr('y', function(d) { return y(0); })
 
-    svg.selectAll("rect")
+    svg.selectAll('rect')
         .transition()
         .duration(800)
-        .attr("y", function(d) { return y(d.value) })
-        .attr("height", function(d) { return height - y(d.value) })
+        .attr('y', function(d) { return y(d.value) })
+        .attr('height', function(d) { return height - y(d.value) })
         .delay(function(d,i){ return(i*50) })
 
     rect.exit().remove();
@@ -213,7 +218,7 @@ function populateDistrictsDropdown(data, compareWaste) {
 }
 
 function addEventListeners(data, compareWaste) {
-    const inputs = document.querySelectorAll(".neighborhood-input");
+    const inputs = document.querySelectorAll('.neighborhood-input');
 
     inputs.forEach( input => {
         createEventListener(data, input, compareWaste);
@@ -222,7 +227,7 @@ function addEventListeners(data, compareWaste) {
 
 function createEventListener(data, input, compareWaste) {
     input.addEventListener('change', event => {
-        const selectionsContainer = document.getElementById("districtsDropdownSelections");
+        const selectionsContainer = document.getElementById('districtsDropdownSelections');
         const inputName = input.getAttribute('data-name');
         const inputId = input.getAttribute('data-id');
 
@@ -272,7 +277,6 @@ function createEventListener(data, input, compareWaste) {
 }
 
 function updateData(data, userSelections, compareWaste) {
-
     // find districts in dataset
     const selectedDistricts = userSelections.map(selection => {
         const selectedDistrict = data.find(district => {
@@ -286,7 +290,7 @@ function updateData(data, userSelections, compareWaste) {
 
     const districtAverage = compareDistricts(selectedDistricts, compareWaste);
 
-    //update(districtAverage);
+    update(districtAverage);
 }
 
 function calculateWaste(data, divisor) {
@@ -298,7 +302,7 @@ function calculateWaste(data, divisor) {
             day: dayName,
             districts: [
                 {
-                    district: "Amsterdam",
+                    district: 'Amsterdam',
                     value: 0,
                     color: '273e66',
                 }
@@ -325,40 +329,46 @@ function calculateWaste(data, divisor) {
 
 // Add or remove user selections
 function compareDistricts(compareData, currentSelectList) {
+
     currentSelectList.forEach(currentDay => {
-        compareData.forEach(newDistrict => {
-            const isInList = Object.keys(currentDay.districts).some( key => {
-                return currentDay.districts[key].district === newDistrict.properties.Buurtcombinatie;
-            });
 
-            // only push if not in list
-            if (!isInList) {
-                const selectedDistrict = {
-                    district: newDistrict.properties.Buurtcombinatie,
-                    value: newDistrict.properties.waste[currentDay.day],
-                    color: newDistrict.properties.color
-                }
-
-                currentDay.districts.push(selectedDistrict);
-            } else {
-                currentDay.districts.forEach(currentList => {
-
-                    const inSelectionList = Object.keys(compareData).some( key => {
-                        return compareData[key].properties.Buurtcombinatie === currentList.district || currentList.district === 'Amsterdam';
-                    });
-
-                    if (!inSelectionList) {
-                        const index = currentDay.districts.indexOf(currentList);
-                        if (index > -1) {
-                            currentDay.districts.splice(index, 1);
-                        }
-                    }
+        // if empty pop last
+        if (!compareData.length) {
+            currentDay.districts.pop()
+        } else {
+            compareData.forEach(newDistrict => {
+                const isInList = Object.keys(currentDay.districts).some( key => {
+                    return currentDay.districts[key].district === newDistrict.properties.Buurtcombinatie;
                 });
-            }
-        });
+
+                // only push if not in list
+                if (!isInList) {
+                    const selectedDistrict = {
+                        district: newDistrict.properties.Buurtcombinatie,
+                        value: newDistrict.properties.waste[currentDay.day],
+                        color: newDistrict.properties.color
+                    }
+
+                    currentDay.districts.push(selectedDistrict);
+                } else {
+                    currentDay.districts.forEach(currentList => {
+                        const inSelectionList = Object.keys(compareData).some( key => {
+                            return compareData[key].properties.Buurtcombinatie === currentList.district || currentList.district === 'Amsterdam';
+                        });
+
+                        if (!inSelectionList) {
+                            const index = currentDay.districts.indexOf(currentList);
+                            if (index > -1) {
+                                currentDay.districts.splice(index, 1);
+                            }
+                        }
+                    });
+                }
+            });
+        }
     });
 
-    update(currentSelectList)
+    return currentSelectList
 }
 
 </script>
@@ -393,9 +403,9 @@ function toggleSubNav() {
 
 
     if (rectA.top <= 80 && rectB.top >= 150) {
-        subNav.classList.add("show");
+        subNav.classList.add('show');
     } else {
-        subNav.classList.remove("show");
+        subNav.classList.remove('show');
     }
 }
 </script>
