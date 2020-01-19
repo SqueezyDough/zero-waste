@@ -51,7 +51,7 @@ d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
 })
 
 let margin = {top: 30, right: 30, bottom: 70, left: 60},
-    width = 600 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -226,11 +226,11 @@ function addEventListeners(data, compareWaste) {
 }
 
 function createEventListener(data, input, compareWaste) {
-    input.addEventListener('change', event => {
-        const selectionsContainer = document.getElementById('districtsDropdownSelections');
-        const inputName = input.getAttribute('data-name');
-        const inputId = input.getAttribute('data-id');
+    const selectionsContainer = document.getElementById('districtsDropdownSelections');
+    const inputName = input.getAttribute('data-name');
+    const inputId = input.getAttribute('data-id');
 
+    input.addEventListener('change', event => {
         if (input.checked) {
             // assign id and color, always picks the first available color
             const newSelection = {
@@ -271,9 +271,35 @@ function createEventListener(data, input, compareWaste) {
             }
         }
 
+        // clean legend
+        const legendLabels = document.querySelectorAll('#districtsDropdownSelections label:not(.user-select-default)');
+
+        legendLabels.forEach(label => {
+            label.addEventListener('click', function(e) {
+                let selectionInList = userSelectList.find( neighborhood => `select-${neighborhood.id}` === label.getAttribute('id') );
+
+                // remove item from list
+                // make color available
+                if (selectionInList) {
+                    const index = userSelectList.indexOf(selectionInList);
+                    availableColorList.push(selectionInList.color);
+
+                    if (index > -1) userSelectList.splice(index, 1);
+
+                    const removeElement = document.getElementById(`select-${inputId}`);
+                    selectionsContainer.removeChild(removeElement);
+
+                    input.nextElementSibling.classList.remove(`user-select-${selectionInList.color}`)
+                    input.checked = false;
+
+                     updateData(data, userSelectList, compareWaste);
+                }
+            });
+        });
+
         // update data for selections
-        const updatedData = updateData(data, userSelectList, compareWaste);
-    })
+        updateData(data, userSelectList, compareWaste);
+    });
 }
 
 function updateData(data, userSelections, compareWaste) {
