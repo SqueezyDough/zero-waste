@@ -83,7 +83,7 @@ input[type="submit"] {
   right: 0;
   top: .5rem;
   background-color: #e6e6e6;
-  border-radius: 0 5px 5px 0; }
+  border-radius: 0 5px 0 0; }
 
 .dropdown, .dropdown--multi-level {
   padding: 0;
@@ -93,7 +93,7 @@ input[type="submit"] {
   text-align: left;
   box-shadow: 5px 5px 0 0 #ffb500;
   border-left: 1px solid #e6e6e6;
-  border-radius: 0 5px 5px 0; }
+  border-radius: 0 0 5px 0; }
   .dropdown > li, .dropdown--multi-level > li {
     display: block;
     position: relative;
@@ -104,7 +104,8 @@ input[type="submit"] {
   position: absolute;
   min-width: 20rem;
   max-height: 82vh;
-  overflow-y: auto; }
+  overflow-y: auto;
+  box-sizing: border-box; }
   .dropdown--multi-level:hover {
     display: block; }
   .dropdown--multi-level > li {
@@ -191,7 +192,7 @@ input[type="submit"] {
 .dropdown-values {
   position: relative;
   padding: .5rem;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 5px 0 0;
   box-shadow: 5px 5px 0 0 #ffb500;
   text-align: left;
   min-width: 20rem;
