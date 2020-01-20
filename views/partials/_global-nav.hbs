@@ -13,13 +13,34 @@
     <div class='global-nav__sub'>
         <div class='global-nav__sub__inner'>
             <ol class='global-nav__sub__menu'>
-                <li><button id='inputMaandag' value='Maandag'>Maandag</button></li>
-                <li><button id='inputDinsdag' value='Dinsdag'>Dinsdag</button></li>
-                <li><button id='inputWoendag' value='Woendag'>Woensdag</button></li>
-                <li><button id='inputDonderdag' value='Donderdag'>Donderdag</button></li>
-                <li><button id='inputVrijdag'value='Vrijdag'>Vrijdag</button></li>
-                <li><button id='inputZaterdag' value='Zaterdag'>Zaterdag</button></li>
-                <li><button id='inputZondag' value='Zondag'>Zondag</button></li>
+                <li>
+                    <input id='inputMaandag' type='radio' name='days' value='ma'>
+                    <label for="inputMaandag">Maandag</label>
+                </li>
+                <li>
+                    <input id='inputDinsdag' type='radio' name='days' value='di'>
+                    <label for="inputDinsdag">Dinsdag</label>
+                </li>
+                <li>
+                    <input id='inputWoendag' type='radio' name='days' value='woe'>
+                    <label for="inputWoendag">Woensdag</label>
+                </li>
+                <li>
+                    <input id='inputDonderdag' type='radio' name='days' value='do'>
+                    <label for="inputDonderdag">Donderdag</label>
+                </li>
+                <li>
+                    <input id='inputVrijdag' type='radio' name='days' value='vr'>
+                    <label for="inputVrijdag">Vrijdag</label>
+                </li>
+                <li>
+                    <input id='inputZaterdag' type='radio' name='days' value='zat'>
+                    <label for="inputZaterdag">Zaterdag</label>
+                </li>
+                <li>
+                    <input id='inputZondag' type='radio' name='days' value='zo'>
+                    <label for="inputZondag">Zondag</label>
+                </li>
             </ol>
 
             <div class='dropdown-container'>
@@ -33,10 +54,18 @@
 </nav>
 
 <script type='module'>
-let userSelectList = [];
+let userSelectDistrictsList = [];
+let userSelectDay = '';
 let availableColorList = ['2ec7a4', 'ffb500', '4490b4'];
+let rawData = {};
 
-d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
+d3.queue()
+    .defer(d3.json, './static/data/output/wasteByDistrict.json')
+    .await(updateCharts);
+
+// load/update charts and menu items
+function updateCharts(error, dataJson) {
+    rawData = dataJson;
     const data = rawData.objects.buurten.geometries;
 
     // count the data that is not empty
@@ -46,12 +75,105 @@ d3.json('./static/data/output/wasteByDistrict.json', (rawData) => {
         });
     }).filter( item => item).length;
 
-    const compareWaste = calculateWaste(data, validDataCount);
+    // calc average
+    const compareWaste = calculateWasteAverage(data, validDataCount);
 
-    populateDistrictsDropdown(data, compareWaste)
-    update(compareWaste)
-})
+    // populate dropdowns
+    populateDistrictsDropdown(data, compareWaste);
 
+    // add eventlisteners to submenu
+    addSubMenuEventListers();
+
+    // update charts
+    updateBarChart(compareWaste);
+    updateMap(rawData);
+
+    // draw borders once
+    drawDistrictBorders(rawData);
+}
+
+//#region AMS MAP D3
+const mapSvg = d3.select('#map');
+const mapWidth = +mapSvg.attr('width');
+const mapHeight = +mapSvg.attr('height');
+
+const projection = d3.geoAlbers()
+    // coordinates
+    .center([4.9, 52.366667])
+    .parallels([51.5, 51.49])
+    .rotate(120)
+    .scale(250000)
+    .translate([mapWidth / 2, mapHeight / 2]);
+
+const path = d3.geoPath()
+    .projection(projection);
+
+const district = { A: 'Centrum', B: 'Westpoort', E: 'West', M: 'Oost', K: 'Zuid', F: 'Nieuw west', N: 'Noord', T: 'Zuidoost' };
+
+const colorDistricts = d3.scaleLinear()
+    .domain([0, 30000])
+    .range(['#fff', '#ff5722']);
+
+//#endregion
+
+// update map
+function updateMap (jsonMapData) {
+    /* Districts */
+    const districts = topojson.feature(jsonMapData, jsonMapData.objects.buurten).features;
+
+    // Draw neighborhoods
+    let paths = mapSvg.selectAll('.neighborhood')
+        .data(districts)
+
+    paths
+        .enter()
+        .append('g')
+        .append('path')
+        .merge(paths)
+        .attr('class', 'neighborhood')
+        .attr('d', path)
+        .attr('fill', function (d) {
+            const total = calculateTotal(d.properties.waste, userSelectDay);
+            return colorDistricts(total);
+        })
+        .style('stroke', d => {
+            const districtCode = d.properties.Buurtcombinatie_code;
+            const isSelected = userSelectDistrictsList.find( item => item.id === districtCode)
+
+            if (isSelected) {
+                return isSelected.color;
+            }
+        })
+        .attr('stroke-width', 4)
+        .append('title')
+        .attr('class', 'title')
+        .text(function (d) {
+            const total = calculateTotal(d.properties.waste, userSelectDay);
+            return `${district[d.properties.Stadsdeel_code]}: ${d.properties.Buurtcombinatie}, Totaal: ${total}`;
+        });
+
+    let titles = mapSvg.selectAll('.title')
+
+    titles
+        .enter()
+        .append('title')
+        .merge(titles)
+        .attr('class', 'title')
+        .text(function (d, i) {
+            const total = calculateTotal(d.properties.waste, userSelectDay);
+            return `${district[d.properties.Stadsdeel_code]}: ${d.properties.Buurtcombinatie}, Totaal: ${total}`;
+        });
+};
+
+// draw map borders
+function drawDistrictBorders(jsonMapData) {
+    // Draw borders neighborhoods
+    mapSvg.append('path')
+        .attr('class', 'neighborhood-borders')
+        .attr('d', path(topojson.mesh(jsonMapData, jsonMapData.objects.buurten, function (a, b) { return a !== b; })));
+}
+
+//#region BAR CHART
 let margin = {top: 30, right: 30, bottom: 70, left: 60},
     width = 700 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -82,9 +204,10 @@ let y = d3.scaleLinear()
     .range([ height, 0]);
 let yAxis = svg.append('g')
     .attr('class', 'myYaxis')
+//#endregion
 
-// A function that create / update the plot for a given letiable:
-function update(data) {
+// update bar chart
+function updateBarChart(data) {
     // List of groups = species here = value of the first column called group -> I show them on the X axis
     let groups = data.map( function(d){ return(d.day)});
 
@@ -146,9 +269,70 @@ function update(data) {
         .delay(function(d,i){ return(i*50) })
 
     rect.exit().remove();
-
 }
 
+// update chart data
+function updateData(data, userSelections, compareWaste) {
+    // find districts in dataset
+    const selectedDistricts = userSelections.map(selection => {
+        const selectedDistrict = data.find(district => {
+            return district.properties.Buurtcombinatie_code === selection.id;
+        });
+
+        selectedDistrict.properties.color = selection.color;
+
+        return selectedDistrict;
+    });
+
+    const districtAverage = compareDistricts(selectedDistricts, compareWaste);
+
+    updateBarChart(districtAverage);
+    updateMap(rawData);
+}
+
+// calculate total waste of week or day
+function calculateTotal(districtWaste, userSelectedDay) {
+    let amountPerDay = districtWaste;
+
+    // get total from day
+    if (userSelectedDay) {
+        const totalPerDay = Object.entries(districtWaste).filter( day => day[0] === userSelectedDay ).flat();
+
+        amountPerDay = {
+            [totalPerDay[0]] : totalPerDay[1]
+        }
+    }
+
+    return Object.values(amountPerDay).reduce((acc, value) => acc + value, 0)
+}
+
+// save day selection
+function addSubMenuEventListers() {
+    const menuItems = document.querySelectorAll('.global-nav__sub__menu input');
+
+    // unchecks an item on click if already checked
+    menuItems.forEach(item => {
+        item.addEventListener('click', e => {
+            //  check is user unchecks btn
+            if (item.hasAttribute('class')) {
+                item.removeAttribute('class');
+                item.checked = false;
+                userSelectDay = '';
+            } else {
+                menuItems.forEach(item => {
+                    item.removeAttribute('class')
+                })
+
+                item.setAttribute('class', 'radio-checked')
+                userSelectDay = item.value;
+            }
+
+            updateMap(rawData);
+        });
+    });
+}
+
+// populate filter dropdown
 function populateDistrictsDropdown(data, compareWaste) {
     const dropdown = document.getElementById('districtsDropdown');
 
@@ -216,18 +400,20 @@ function populateDistrictsDropdown(data, compareWaste) {
         dropdown.appendChild(districtListElement)
     });
 
-    addEventListeners(data, compareWaste);
+    addDropdownEventListeners(data, compareWaste);
 }
 
-function addEventListeners(data, compareWaste) {
+// add dropdown event listeners
+function addDropdownEventListeners(data, compareWaste) {
     const inputs = document.querySelectorAll('.neighborhood-input');
 
     inputs.forEach( input => {
-        createEventListener(data, input, compareWaste);
+        createDropdownEventListeners(data, input, compareWaste);
     });
 }
 
-function createEventListener(data, input, compareWaste) {
+// create event listeners for items
+function createDropdownEventListeners(data, input, compareWaste) {
     const selectionsContainer = document.getElementById('districtsDropdownSelections');
     const inputName = input.getAttribute('data-name');
     const inputId = input.getAttribute('data-id');
@@ -241,7 +427,7 @@ function createEventListener(data, input, compareWaste) {
             }
 
             // push selection
-            userSelectList.push(newSelection);
+            userSelectDistrictsList.push(newSelection);
 
             // make color unavailable
             availableColorList.shift();
@@ -256,15 +442,15 @@ function createEventListener(data, input, compareWaste) {
             selectionsContainer.append(selectionLabel);
         } else {
             // find item in list
-            let selectionInList = userSelectList.find( neighborhood => neighborhood.id === inputId );
+            let selectionInList = userSelectDistrictsList.find( neighborhood => neighborhood.id === inputId );
 
             // remove item from list
             // make color available
             if (selectionInList) {
-                const index = userSelectList.indexOf(selectionInList);
+                const index = userSelectDistrictsList.indexOf(selectionInList);
                 availableColorList.push(selectionInList.color);
 
-                if (index > -1) userSelectList.splice(index, 1);
+                if (index > -1) userSelectDistrictsList.splice(index, 1);
 
                 const removeElement = document.getElementById(`select-${inputId}`);
                 selectionsContainer.removeChild(removeElement);
@@ -278,15 +464,15 @@ function createEventListener(data, input, compareWaste) {
 
         legendLabels.forEach(label => {
             label.addEventListener('click', function(e) {
-                let selectionInList = userSelectList.find( neighborhood => `select-${neighborhood.id}` === label.getAttribute('id') );
+                let selectionInList = userSelectDistrictsList.find( neighborhood => `select-${neighborhood.id}` === label.getAttribute('id') );
 
                 // remove item from list
                 // make color available
                 if (selectionInList) {
-                    const index = userSelectList.indexOf(selectionInList);
+                    const index = userSelectDistrictsList.indexOf(selectionInList);
                     availableColorList.push(selectionInList.color);
 
-                    if (index > -1) userSelectList.splice(index, 1);
+                    if (index > -1) userSelectDistrictsList.splice(index, 1);
 
                     const removeElement = document.getElementById(`select-${inputId}`);
                     selectionsContainer.removeChild(removeElement);
@@ -294,34 +480,18 @@ function createEventListener(data, input, compareWaste) {
                     input.nextElementSibling.classList.remove(`user-select-${selectionInList.color}`)
                     input.checked = false;
 
-                     updateData(data, userSelectList, compareWaste);
+                     updateData(data, userSelectDistrictsList, compareWaste);
                 }
             });
         });
 
         // update data for selections
-        updateData(data, userSelectList, compareWaste);
+        updateData(data, userSelectDistrictsList, compareWaste);
     });
 }
 
-function updateData(data, userSelections, compareWaste) {
-    // find districts in dataset
-    const selectedDistricts = userSelections.map(selection => {
-        const selectedDistrict = data.find(district => {
-            return district.properties.Buurtcombinatie_code === selection.id;
-        });
-
-        selectedDistrict.properties.color = selection.color;
-
-        return selectedDistrict;
-    });
-
-    const districtAverage = compareDistricts(selectedDistricts, compareWaste);
-
-    update(districtAverage);
-}
-
-function calculateWaste(data, divisor) {
+// calculate waste average
+function calculateWasteAverage(data, divisor) {
     const days = ['ma', 'di', 'woe', 'do', 'vr', 'zat', 'zo'];
 
     // create template objects
@@ -403,7 +573,6 @@ function compareDistricts(compareData, currentSelectList) {
 
 <script>
 // script for global nav behaviour
-
 // change header on scroll
 window.addEventListener('scroll', function(e) {
     resizeMainNav();

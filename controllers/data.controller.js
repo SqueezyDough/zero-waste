@@ -12,8 +12,8 @@ const dataController = {};
 dataController.load = function () {
   fetchData();
 
-  // const stringifiedJson = JSON.stringify(jsonWaste);
-  // utils.createJson(stringifiedJson, 'waste2');
+  const stringifiedJson = JSON.stringify(jsonWaste);
+  utils.createJson(stringifiedJson, 'waste2');
 
   return true;
 };
@@ -45,17 +45,8 @@ function fetchData () {
           do: 0,
           vr: 0,
           zat: 0,
-          zo: 0,
-          total: 0
+          zo: 0
         };
-
-        Object.defineProperty(district, 'getTotal', {
-          get: function () {
-            const total = Object.values(this.properties.waste).reduce((a, b) => a + b, 0);
-
-            return total;
-          }
-        });
       });
 
       districts.objects.buurten.geometries.forEach(district => {
@@ -75,7 +66,6 @@ function fetchData () {
             district.properties.waste.vr += foundDistrict.vr;
             district.properties.waste.zat += foundDistrict.zat;
             district.properties.waste.zo += foundDistrict.zo;
-            district.properties.waste.total = district.getTotal;
           });
         }
 

@@ -325,14 +325,18 @@ input[type="submit"] {
   list-style-type: none;
   padding: 0;
   color: #273e66; }
-  .global-nav__sub__menu button {
-    background-color: transparent;
-    border: none;
+  .global-nav__sub__menu input {
+    display: none; }
+    .global-nav__sub__menu input:checked + label {
+      color: #ffb500; }
+  .global-nav__sub__menu label {
+    margin-right: 1rem;
     font-size: 1rem;
     font-family: "Poppins-regular", Arial, sans-serif;
     color: #273e66;
-    cursor: pointer; }
-    .global-nav__sub__menu button:hover {
+    cursor: pointer;
+    user-select: none; }
+    .global-nav__sub__menu label:hover {
       color: #ffb500; }
 
 .intro__inner {
