@@ -329,7 +329,7 @@ input[type="submit"] {
     background-color: transparent;
     border: none;
     font-size: 1rem;
-    font-family: "Poppins-semibold", Arial, sans-serif;
+    font-family: "Poppins-regular", Arial, sans-serif;
     color: #273e66;
     cursor: pointer; }
     .global-nav__sub__menu button:hover {
