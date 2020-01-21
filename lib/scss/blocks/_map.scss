@@ -2,8 +2,13 @@
   stroke-linejoin: round;
 }
 
-.neighborhood:hover {
-  opacity: 0.9;
+.neighborhood {
+  cursor: pointer;
+  transition: $transitionDuration all;
+
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 /*Lines*/
@@ -39,7 +44,7 @@
 
 .mapTooltip__dist {
   display: block;
-  font-family: $primaryFontFamily;
+  font-family: $secondaryFontfamily;
 }
 
 .mapTooltip__value {

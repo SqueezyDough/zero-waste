@@ -414,8 +414,11 @@ input[type="submit"] {
 .path {
   stroke-linejoin: round; }
 
-.neighborhood:hover {
-  opacity: 0.9; }
+.neighborhood {
+  cursor: pointer;
+  transition: 0.2s all; }
+  .neighborhood:hover {
+    opacity: 0.85; }
 
 /*Lines*/
 .neighborhood-borders {
@@ -445,7 +448,7 @@ input[type="submit"] {
 
 .mapTooltip__dist {
   display: block;
-  font-family: "Arial-black", Arial, sans-serif; }
+  font-family: "Poppins-semibold", Arial, sans-serif; }
 
 .mapTooltip__value {
   font-family: "Poppins-regular", Arial, sans-serif; }
@@ -515,7 +518,7 @@ input[type="submit"] {
 
 .barTooltip__dist {
   display: block;
-  font-family: "Arial-black", Arial, sans-serif; }
+  font-family: "Poppins-semibold", Arial, sans-serif; }
 
 .routes {
   background-color: #4490b4;

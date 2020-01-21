@@ -59,6 +59,7 @@ let userSelectDistrictsList = [];
 let userSelectDay = '';
 let availableColorList = ['2ec7a4', 'ffb500', '4490b4'];
 let rawData = {};
+let compareWaste = []
 
 d3.queue()
     .defer(d3.json, './static/data/output/wasteByDistrict.json')
@@ -77,7 +78,7 @@ function updateCharts(error, dataJson) {
     }).filter( item => item).length;
 
     // calc average
-    const compareWaste = calculateWasteAverage(data, validDataCount);
+    compareWaste = calculateWasteAverage(data, validDataCount);
 
     // populate dropdowns
     populateDistrictsDropdown(data, compareWaste);
@@ -128,6 +129,7 @@ const mapTooltip = d3.select("body")
 function updateMap (jsonMapData) {
     /* Districts */
     const districts = topojson.feature(jsonMapData, jsonMapData.objects.buurten).features;
+    const data = rawData.objects.buurten.geometries;
 
     // Draw neighborhoods
     let paths = mapSvg.selectAll('.neighborhood')
@@ -144,6 +146,58 @@ function updateMap (jsonMapData) {
             const total = calculateTotal(d.properties.waste, userSelectDay);
             return colorDistricts(total);
         })
+        .on("click", d => {
+            const districtCode = d.properties.Buurtcombinatie_code;
+            const input = document.querySelector(`[data-id=${districtCode}]`);
+            const selectionInList = userSelectDistrictsList.find( dist => dist.id === d.properties.Buurtcombinatie_code);
+            const selectionsContainer = document.getElementById('districtsDropdownSelections');
+
+            // Remove selection
+            if (selectionInList) {
+                const index = userSelectDistrictsList.indexOf(selectionInList);
+                availableColorList.push(selectionInList.color);
+
+                if (index > -1) userSelectDistrictsList.splice(index, 1);
+
+                const removeElement = document.getElementById(`select-${d.properties.Buurtcombinatie_code}`);
+                selectionsContainer.removeChild(removeElement);
+
+                input.nextElementSibling.classList.remove(`user-select-${selectionInList.color}`)
+                input.checked = false;
+
+            // Add new selection
+            } else {
+                const input = document.querySelector(`[data-id=${districtCode}]`);
+
+                const newSelection = {
+                    id: districtCode,
+                    color: availableColorList[0]
+                }
+
+                // push selection
+                userSelectDistrictsList.push(newSelection);
+
+                // make color unavailable
+                availableColorList.shift();
+
+                const selectionLabel = document.createElement('label');
+                selectionLabel.textContent = d.properties.Buurtcombinatie;
+                selectionLabel.setAttribute('id', `select-${districtCode}`);
+                selectionLabel.classList.add(`user-select-${newSelection.color}`)
+                selectionsContainer.append(selectionLabel);
+
+                input.checked = true;
+
+                // color checkbox
+                input.nextElementSibling.classList.add(`user-select-${newSelection.color}`)
+
+                // create labels for legend
+                createLegendLabelsEventListeners(data, selectionsContainer, input, districtCode);
+            }
+
+            // update data and charts
+            updateData(data, userSelectDistrictsList);
+        })
         .style('stroke', d => {
             const districtCode = d.properties.Buurtcombinatie_code;
             const isSelected = userSelectDistrictsList.find( item => item.id === districtCode)
@@ -153,6 +207,7 @@ function updateMap (jsonMapData) {
             }
         })
         .attr('stroke-width', 6)
+        .attr('id', function (d) { return d.properties.Buurtcombinatie_code })
         .on("mouseover", d => {
             const total = calculateTotal(d.properties.waste, userSelectDay);
 
@@ -302,8 +357,15 @@ function updateBarChart(data) {
 }
 
 // update chart data
-function updateData(data, userSelections, compareWaste) {
-    // find districts in dataset
+function updateData(data, userSelections) {
+    const districtAverage = findUserSelectedDistrict(data, userSelections)
+
+    updateBarChart(districtAverage);
+    updateMap(rawData);
+}
+
+function findUserSelectedDistrict(data, userSelections) {
+// find districts in dataset
     const selectedDistricts = userSelections.map(selection => {
         const selectedDistrict = data.find(district => {
             return district.properties.Buurtcombinatie_code === selection.id;
@@ -314,10 +376,7 @@ function updateData(data, userSelections, compareWaste) {
         return selectedDistrict;
     });
 
-    const districtAverage = compareDistricts(selectedDistricts, compareWaste);
-
-    updateBarChart(districtAverage);
-    updateMap(rawData);
+    return compareDistricts(selectedDistricts, compareWaste);
 }
 
 // calculate total waste of week or day
@@ -363,7 +422,7 @@ function addSubMenuEventListers() {
 }
 
 // populate filter dropdown
-function populateDistrictsDropdown(data, compareWaste) {
+function populateDistrictsDropdown(data) {
     const dropdown = document.getElementById('districtsDropdown');
 
     const districts = [ {A: 'Centrum'}, {B: 'Westpoort'}, {E: 'West'}, {M: 'Oost'}, {K: 'Zuid'}, {F: 'Nieuw west'}, {N: 'Noord'}, {T: 'Zuidoost'} ];
@@ -372,8 +431,8 @@ function populateDistrictsDropdown(data, compareWaste) {
         a = Object.values(a);
         b = Object.values(b);
 
-        if (a < b) return -1
-        if (a > b) return 1
+        if (a < b) return -1;
+        if (a > b) return 1;
     });
 
     sortedDistricts.forEach(district => {
@@ -430,20 +489,20 @@ function populateDistrictsDropdown(data, compareWaste) {
         dropdown.appendChild(districtListElement)
     });
 
-    addDropdownEventListeners(data, compareWaste);
+    addDropdownEventListeners(data);
 }
 
 // add dropdown event listeners
-function addDropdownEventListeners(data, compareWaste) {
+function addDropdownEventListeners(data) {
     const inputs = document.querySelectorAll('.neighborhood-input');
 
     inputs.forEach( input => {
-        createDropdownEventListeners(data, input, compareWaste);
+        createDropdownEventListeners(data, input);
     });
 }
 
 // create event listeners for items
-function createDropdownEventListeners(data, input, compareWaste) {
+function createDropdownEventListeners(data, input) {
     const selectionsContainer = document.getElementById('districtsDropdownSelections');
     const inputName = input.getAttribute('data-name');
     const inputId = input.getAttribute('data-id');
@@ -462,6 +521,7 @@ function createDropdownEventListeners(data, input, compareWaste) {
             // make color unavailable
             availableColorList.shift();
 
+            // color checkbox
             input.nextElementSibling.classList.add(`user-select-${newSelection.color}`)
 
             // create elements
@@ -489,34 +549,40 @@ function createDropdownEventListeners(data, input, compareWaste) {
             }
         }
 
-        // clean legend
-        const legendLabels = document.querySelectorAll('#districtsDropdownSelections label:not(.user-select-default)');
-
-        legendLabels.forEach(label => {
-            label.addEventListener('click', function(e) {
-                let selectionInList = userSelectDistrictsList.find( neighborhood => `select-${neighborhood.id}` === label.getAttribute('id') );
-
-                // remove item from list
-                // make color available
-                if (selectionInList) {
-                    const index = userSelectDistrictsList.indexOf(selectionInList);
-                    availableColorList.push(selectionInList.color);
-
-                    if (index > -1) userSelectDistrictsList.splice(index, 1);
-
-                    const removeElement = document.getElementById(`select-${inputId}`);
-                    selectionsContainer.removeChild(removeElement);
-
-                    input.nextElementSibling.classList.remove(`user-select-${selectionInList.color}`)
-                    input.checked = false;
-
-                     updateData(data, userSelectDistrictsList, compareWaste);
-                }
-            });
-        });
+        // create labels for legend
+        createLegendLabelsEventListeners(data, selectionsContainer, input, inputId);
 
         // update data for selections
-        updateData(data, userSelectDistrictsList, compareWaste);
+        updateData(data, userSelectDistrictsList);
+    });
+}
+
+function createLegendLabelsEventListeners(data, selectionsContainer, input, inputId) {
+    console.log('params: ', data, selectionsContainer, input, inputId)
+    // clean legend
+    const legendLabels = document.querySelectorAll('#districtsDropdownSelections label:not(.user-select-default)');
+
+    legendLabels.forEach(label => {
+        label.addEventListener('click', function(e) {
+            let selectionInList = userSelectDistrictsList.find( neighborhood => `select-${neighborhood.id}` === label.getAttribute('id') );
+
+            // remove item from list
+            // make color available
+            if (selectionInList) {
+                const index = userSelectDistrictsList.indexOf(selectionInList);
+                availableColorList.push(selectionInList.color);
+
+                if (index > -1) userSelectDistrictsList.splice(index, 1);
+
+                const removeElement = document.getElementById(`select-${inputId}`);
+                selectionsContainer.removeChild(removeElement);
+
+                input.nextElementSibling.classList.remove(`user-select-${selectionInList.color}`)
+                input.checked = false;
+
+                updateData(data, userSelectDistrictsList);
+            }
+        });
     });
 }
 
@@ -596,7 +662,7 @@ function compareDistricts(compareData, currentSelectList) {
         }
     });
 
-    return currentSelectList
+    return currentSelectList;
 }
 
 </script>
