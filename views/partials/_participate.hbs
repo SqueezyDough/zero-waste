@@ -1,4 +1,4 @@
-<section class="participate grid-container">
+<section id="participateContainer" class="participate grid-container">
     <div class="participate__inner">
         <h2>Doe mee met Zero Waste</h2>
         <p class="participate__inner__text">
@@ -7,33 +7,62 @@
             die positief is voor iedereen.
         </p>
 
-        <form class="form-participate">
+        <form id="participate" class="form-participate">
             <div class="form-group">
-                <input class="input-text" type="text" name="name" required>
+                <input id="name" class="input-text" type="text" name="name" required>
                 <span class="floating-label">naam</span>
             </div>
 
             <div class="form-group">
-                <input class="input-text" type="text" name="company" required>
+                <input id="company" class="input-text" type="text" name="company" required>
                 <span class="floating-label">bedrijf</span>
             </div>
 
             <div class="form-group">
-                <input class="input-text" type="text" name="email" required>
+                <input id="email" class="input-text" type="text" name="email" required>
                 <span class="floating-label">email</span>
             </div>
 
             <div class="form-group">
-                <textarea class="input-text" required></textarea>
+                <textarea id="message" class="input-text" required></textarea>
                 <span class="floating-label">bericht</span>
             </div>
 
-            <input type="submit" value="verstuur">
+            <input id="submit" type="submit" value="verstuur">
         </form>
     </div>
     <img class="img-container" src="./static/images/container.svg">
+
+    <div id="participateModal" class="participate__modal">
+        <h3 class="participate__modal__header">Bedankt voor uw inzet</h3>
+        <p class="participate__modal__text">
+            We nemen zo snel mogelijk met je contact op. Dankzij jouw inzet draag jij en je bedrijf bij aan een efficiëntere
+            afvalstroming in de gemeente Amsterdam.
+        </p>
+        <button id="closeModal" class="modal__close">Sluit venster</button>
+    </div>
 </section>
 
 <script>
+    const submit = document.getElementById('submit');
 
+    const modal = document.getElementById('participateModal');
+    const btnCloseModal = document.getElementById('closeModal');
+
+    submit.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('name');
+        const company = document.getElementById('company');
+        const email = document.getElementById('email');
+        const message = document.getElementById('message');
+
+        if (name.validity.valid && company.validity.valid && email.validity.valid && message.validity.valid) {
+            modal.classList.add('is-visible');
+        }
+    });
+
+    btnCloseModal.addEventListener('click', function(e) {
+        modal.classList.remove('is-visible');
+    });
 </script>

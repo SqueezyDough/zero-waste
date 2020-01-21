@@ -75,6 +75,8 @@ input[type="submit"] {
   color: #fff;
   box-shadow: unset;
   border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  outline: 0;
   transition: 0.2s ease all; }
   input[type="submit"]:hover {
     box-shadow: 5px 5px 0 0 #ffb500; }
@@ -643,3 +645,48 @@ input[type="submit"] {
   @media (min-width: 70rem) {
     .img-container {
       transform: translateY(-50%) scale(1); } }
+
+.participate__modal {
+  position: fixed;
+  padding: 6rem 3rem;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffb500;
+  background-image: url("../../static/images/amsterdam.svg");
+  background-size: 100% 100%;
+  visibility: hidden;
+  border-radius: 5px;
+  box-shadow: 5px 5px 0 0 #273e66;
+  text-align: center;
+  z-index: 996; }
+  .participate__modal.is-visible {
+    animation: makeVisible 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.08) forwards; }
+
+@keyframes makeVisible {
+  to {
+    top: 50%;
+    visibility: visible; } }
+
+.participate__modal__header {
+  text-transform: uppercase; }
+
+.participate__modal__text {
+  font-family: "Poppins-regular", Arial, sans-serif; }
+
+.modal__close {
+  position: absolute;
+  padding: .3rem .8rem;
+  top: 1.5rem;
+  right: 1.5rem;
+  background-color: #fffadd;
+  border: none;
+  border-radius: 50px;
+  font-size: .8rem;
+  font-family: "Poppins-semibold", Arial, sans-serif;
+  color: #273e66;
+  outline: 0;
+  cursor: pointer;
+  transition: 0.2s all; }
+  .modal__close:hover {
+    box-shadow: 5px 5px 0 0 #273e66; }

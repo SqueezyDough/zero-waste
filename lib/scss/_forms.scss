@@ -28,6 +28,8 @@ input[type="submit"] {
   color: $white;
   box-shadow: unset;
   border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  outline: 0;
   transition: $transitionDuration ease all;
 
   &:hover {

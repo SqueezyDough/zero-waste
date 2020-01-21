@@ -49,3 +49,58 @@
         transform: translateY(-50%) scale(1);
     }
 }
+
+.participate__modal {
+    position: fixed;
+    padding: 6rem 3rem;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $tertiaryThemeColor;
+    background-image: url('../../static/images/amsterdam.svg');
+    background-size: 100% 100%;
+    visibility: hidden;
+    border-radius: 5px;
+    box-shadow: 5px 5px 0 0 $mainThemeColor;
+    text-align: center;
+    z-index: 996;
+
+    &.is-visible {
+        animation: makeVisible .5s cubic-bezier(0.175, 0.885, 0.32, 1.08) forwards;
+
+        @keyframes makeVisible {
+            to {
+                top: 50%;
+                visibility: visible;
+            }
+        }
+    }
+}
+
+.participate__modal__header {
+    text-transform: uppercase;
+}
+
+.participate__modal__text {
+    font-family: $tertiaryFontFamily;
+}
+
+.modal__close {
+    position: absolute;
+    padding: .3rem .8rem;
+    top: 1.5rem;
+    right: 1.5rem;
+    background-color: $primaryBackgroundColor;
+    border: none;
+    border-radius: 50px;
+    font-size: .8rem;
+    font-family: $secondaryFontfamily;
+    color: $mainThemeColor;
+    outline: 0;
+    cursor: pointer;
+    transition: $transitionDuration all;
+
+    &:hover {
+        box-shadow: 5px 5px 0 0 $mainThemeColor;
+    }
+}
