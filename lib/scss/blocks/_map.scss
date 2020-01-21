@@ -36,3 +36,12 @@
   color: $white;
   font-family: $tertiaryFontFamily;
 }
+
+.mapTooltip__dist {
+  display: block;
+  font-family: $primaryFontFamily;
+}
+
+.mapTooltip__value {
+  font-family: $tertiaryFontFamily;
+}

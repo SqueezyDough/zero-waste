@@ -33,7 +33,7 @@ span {
 section {
   padding: 3rem 0; }
 
-.barTooltip {
+.barTooltip, .mapTooltip {
   position: absolute;
   visibility: hidden;
   z-index: 997;
@@ -439,6 +439,13 @@ input[type="submit"] {
 .map__inner__text {
   padding: 0 10%;
   color: #fff;
+  font-family: "Poppins-regular", Arial, sans-serif; }
+
+.mapTooltip__dist {
+  display: block;
+  font-family: "Arial-black", Arial, sans-serif; }
+
+.mapTooltip__value {
   font-family: "Poppins-regular", Arial, sans-serif; }
 
 .data-shared {

@@ -27,7 +27,7 @@ section {
     padding: 3rem 0;
 }
 
-.barTooltip {
+.barTooltip, .mapTooltip {
     position: absolute;
     visibility: hidden;
     z-index: 997;

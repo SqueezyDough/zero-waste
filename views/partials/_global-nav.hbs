@@ -114,6 +114,13 @@ const colorDistricts = d3.scaleLinear()
     .domain([0, 30000])
     .range(['#fff', '#ff5722']);
 
+const mapTooltip = d3.select("body")
+    .append("div")
+    .attr("class", "mapTooltip")
+    .style("position", "absolute")
+    .style("visibility", "hidden")
+    .style("z-index", "1")
+
 //#endregion
 
 // update map
@@ -145,23 +152,21 @@ function updateMap (jsonMapData) {
             }
         })
         .attr('stroke-width', 6)
-        .append('title')
-        .attr('class', 'title')
-        .text(function (d) {
+        .on("mouseover", d => {
             const total = calculateTotal(d.properties.waste, userSelectDay);
-            return `${district[d.properties.Stadsdeel_code]}: ${d.properties.Buurtcombinatie}, Totaal: ${total}`;
-        });
 
-    let titles = mapSvg.selectAll('.title')
-
-    titles
-        .enter()
-        .append('title')
-        .merge(titles)
-        .attr('class', 'title')
-        .text(function (d, i) {
-            const total = calculateTotal(d.properties.waste, userSelectDay);
-            return `${district[d.properties.Stadsdeel_code]}: ${d.properties.Buurtcombinatie}, Totaal: ${total}`;
+            return mapTooltip.style("visibility", "visible")
+                .html(`
+                    <span class='mapTooltip__dist'>${district[d.properties.Stadsdeel_code]}, ${d.properties.Buurtcombinatie}</span>
+                    <span class='mapTooltip__value'>${total} afvalzakken</span>
+                `)
+        })
+        .on("mousemove", () => {
+            // tt positioning: https://www.d3-graph-gallery.com/graph/interactivity_tooltip.html
+            return mapTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+        })
+        .on("mouseout", () => {
+            return mapTooltip.style("visibility", "hidden")
         });
 };
 
