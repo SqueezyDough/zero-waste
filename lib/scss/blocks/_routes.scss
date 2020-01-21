@@ -32,3 +32,82 @@
    right: 5%;
    height: 30%;
 }
+
+.routes__legend {
+    grid-column: start / end;
+    margin-top: 3rem;
+    padding: 2rem 1.6rem;
+    color: $white;
+    text-align: left;
+}
+
+.routes__legend__header {
+    grid-column: start / gutter2;
+    font-family: $secondaryFontfamily;
+    font-size: 1rem;
+}
+
+.routes__legend__stream {
+    grid-column: start / col2;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        position: relative;
+        font-family: $tertiaryFontFamily;
+        white-space: nowrap;
+
+        &::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: .5rem;
+            right: -3rem;
+            width: 1.5rem;
+            height: .5rem;
+            border-radius: 0 5px 5px 0;
+        }
+
+        &.legend__stream__known::after {
+            background-color: $white;
+        }
+
+        &.legend__stream__user::after {
+            background-color: $tertiaryThemeColor;
+        }
+    }
+}
+
+.routes__legend__pickup {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 8rem;
+
+    li {
+        position: relative;
+        font-family: $tertiaryFontFamily;
+        white-space: nowrap;
+
+        &::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: .5rem;
+            right: -3rem;
+            width: .5rem;
+            height: .5rem;
+            border-radius: 50%;
+        }
+
+        &.legend__pickup__false::after {
+            background-color: $mainThemeColor;
+            transform: translateX(-25%);
+        }
+
+        &.legend__pickup__vehicle::after {
+            background-color: #000;
+            border: 2px solid $white;
+        }
+    }
+}

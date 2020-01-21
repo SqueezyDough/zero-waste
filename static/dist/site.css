@@ -224,7 +224,7 @@ input[type="submit"] {
     transform-origin: center;
     transition: 0.2s all; }
   .dropdown-values:hover {
-    background-color: #e6a300; }
+    background-color: #f0aa00; }
     .dropdown-values:hover ~ #districtsDropdown {
       display: block; }
   .dropdown-values label {
@@ -543,6 +543,65 @@ input[type="submit"] {
   bottom: 2rem;
   right: 5%;
   height: 30%; }
+
+.routes__legend {
+  grid-column: start / end;
+  margin-top: 3rem;
+  padding: 2rem 1.6rem;
+  color: #fff;
+  text-align: left; }
+
+.routes__legend__header {
+  grid-column: start / gutter2;
+  font-family: "Poppins-semibold", Arial, sans-serif;
+  font-size: 1rem; }
+
+.routes__legend__stream {
+  grid-column: start / col2;
+  margin: 0;
+  padding: 0;
+  list-style-type: none; }
+  .routes__legend__stream li {
+    position: relative;
+    font-family: "Poppins-regular", Arial, sans-serif;
+    white-space: nowrap; }
+    .routes__legend__stream li::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: .5rem;
+      right: -3rem;
+      width: 1.5rem;
+      height: .5rem;
+      border-radius: 0 5px 5px 0; }
+    .routes__legend__stream li.legend__stream__known::after {
+      background-color: #fff; }
+    .routes__legend__stream li.legend__stream__user::after {
+      background-color: #ffb500; }
+
+.routes__legend__pickup {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 0 8rem; }
+  .routes__legend__pickup li {
+    position: relative;
+    font-family: "Poppins-regular", Arial, sans-serif;
+    white-space: nowrap; }
+    .routes__legend__pickup li::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: .5rem;
+      right: -3rem;
+      width: .5rem;
+      height: .5rem;
+      border-radius: 50%; }
+    .routes__legend__pickup li.legend__pickup__false::after {
+      background-color: #273e66;
+      transform: translateX(-25%); }
+    .routes__legend__pickup li.legend__pickup__vehicle::after {
+      background-color: #000;
+      border: 2px solid #fff; }
 
 .participate {
   position: relative;

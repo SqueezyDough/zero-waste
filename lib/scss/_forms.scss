@@ -218,7 +218,7 @@ input[type="submit"] {
   box-sizing: border-box;
 
   &:hover {
-    background-color: darken($tertiaryThemeColor, 5%);
+    background-color: darken($tertiaryThemeColor, 3%);
 
     ~ #districtsDropdown {
       display: block;

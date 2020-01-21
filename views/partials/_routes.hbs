@@ -12,6 +12,17 @@
         <div id="routes" class="routes__inner__route"></div>
         <div id="clock" class="routes__inner__clock"></div>
     </div>
+    <div class="routes__legend grid-container">
+        <h3 class="routes__legend__header">Legenda</h3>
+        <ul class="routes__legend__stream">
+            <li class="legend__stream__known">Afvalstroom bekend bij Zero waste</li>
+            <li class="legend__stream__user">Uw Afvalstroom</li>
+        </ul>
+        <ul class="routes__legend__pickup">
+            <li class="legend__pickup__false">Niet opgehaald afval</li>
+            <li class="legend__pickup__vehicle">Vuilniswagen</li>
+        </ul>
+    </div>
 </section>
 
 <script src="./static/js/lottie.js"></script>
@@ -23,7 +34,6 @@ const animationTijd = bodymovin.loadAnimation({
     loop: true,
     autoplay: true,
     path: './static/data/src/svgClock.json'
-
 })
 
 const animationRoute = bodymovin.loadAnimation({
@@ -32,6 +42,5 @@ const animationRoute = bodymovin.loadAnimation({
     loop: true,
     autoplay: true,
     path: './static/data/src/svgRoutes.json'
-
 })
 </script>
