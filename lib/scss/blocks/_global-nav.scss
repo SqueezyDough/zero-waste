@@ -19,7 +19,7 @@
         .global-nav__main__header {
             background-color: transparent;
             box-shadow: none;
-            padding: .5rem 2rem;
+            padding: .5rem 1.5rem;
             color: $mainThemeColor;
         }
 
@@ -117,7 +117,7 @@
 
         &:checked + label{
             color: $tertiaryThemeColor;
-            animation: click ease-in-out .5s forwards;
+            animation: click ease-in-out .4s forwards;
 
             @keyframes click {
                 to {

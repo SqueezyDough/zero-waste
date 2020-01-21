@@ -211,6 +211,15 @@ let y = d3.scaleLinear()
 let yAxis = svg.append('g')
     .attr('class', 'myYaxis')
 
+yAxis
+    .append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('y', 6)
+    .attr('dy', '.71em')
+    .style('text-anchor', 'end')
+    .text('Hoeveelheid afvalzakken')
+    .attr('fill', 'black')
+
 const barTooltip = d3.select("body")
     .append("div")
     .attr("class", "barTooltip")
@@ -233,18 +242,11 @@ function updateBarChart(data) {
     xSubgroup.domain(subgroups)
         .range([0, x.bandwidth()]);
 
-    xAxis.call(d3.axisBottom(x).tickSize(0))
+    xAxis.call(d3.axisBottom(x))
 
     // Update the Y axis
     y.domain([0, d3.max(data, function(d) { return d3.max(d.districts, function(d) { return d.value; }); })]);
     yAxis.call(d3.axisLeft(y))
-    .append('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('y', 6)
-        .attr('dy', '.71em')
-        .style('text-anchor', 'end')
-        .text('Hoeveelheid afvalzakken')
-        .attr('fill', 'black')
 
     let group = svg.selectAll('.group')
         .data(data)

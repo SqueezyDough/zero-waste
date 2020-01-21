@@ -268,7 +268,7 @@ input[type="submit"] {
     .global-nav__main.global-nav--shrink .global-nav__main__header {
       background-color: transparent;
       box-shadow: none;
-      padding: .5rem 2rem;
+      padding: .5rem 1.5rem;
       color: #273e66; }
     .global-nav__main.global-nav--shrink .global-nav__main__menu a:hover {
       color: #fffadd; }
@@ -343,7 +343,7 @@ input[type="submit"] {
     display: none; }
     .global-nav__sub__menu input:checked + label {
       color: #ffb500;
-      animation: click ease-in-out .5s forwards; }
+      animation: click ease-in-out .4s forwards; }
 
 @keyframes click {
   to {
