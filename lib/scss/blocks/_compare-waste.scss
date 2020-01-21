@@ -1,11 +1,15 @@
 .compare-waste__inner {
     grid-column: col2 / col6;
     position: relative;
-    padding: 0 10%;
     text-align: center;
 }
 
+.compare-waste__inner__header {
+    white-space: nowrap;
+}
+
 .compare-waste__inner__text {
+    padding: 0 10%;
     font-family: $tertiaryFontFamily;
 }
 
@@ -13,4 +17,13 @@
     text {
         font-size: 1rem;
     }
+}
+
+.rect {
+    position: relative;
+}
+
+.barTooltip__dist {
+    display: block;
+    font-family: $primaryFontFamily;
 }

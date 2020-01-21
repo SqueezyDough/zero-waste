@@ -8,11 +8,17 @@
 }
 
 .participate__inner {
-    grid-column: col3 / col5;
+    grid-column: col2 / col6;
     text-align: center;
 }
 
+.participate__inner__header {
+    white-space: nowrap;
+}
+
+
 .participate__inner__text {
+    padding: 0 10%;
     font-family: $tertiaryFontFamily;
 }
 

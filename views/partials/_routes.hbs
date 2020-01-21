@@ -1,4 +1,37 @@
-{{!-- <video width="320" height="240" controls>
-    <source src="../../static/media/tijd.mp4" type="video/mp4">
-    <source src="../../static/media/test-klok-media.mov" type="video/mp4">
-</video> --}}
+
+<section class="routes">
+    <div class="routes__inner grid-container">
+        <h2 class="routes__header">Hoe wordt het afval opgehaald?</h2>
+        <p class="routes__text">
+            Hier wordt een afvalstroming van een afvalbedrijf weergegeven.
+            Door te weten hoe en wanneer het afval wordt opgehaald,
+            kan er een samenwerking beginnen om aan een meer efficiënte flow van afval te werken.
+        </p>
+    </div>
+    <div class="routes__inner grid-container">
+        <div id="routes" class="routes__inner__route"></div>
+        <div id="clock" class="routes__inner__clock"></div>
+    </div>
+</section>
+
+<script src="./static/js/lottie.js"></script>
+
+<script>
+const animationTijd = bodymovin.loadAnimation({
+    container: document.getElementById('clock'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: './static/data/src/svgClock.json'
+
+})
+
+const animationRoute = bodymovin.loadAnimation({
+    container: document.getElementById('routes'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: './static/data/src/svgRoutes.json'
+
+})
+</script>

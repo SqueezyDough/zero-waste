@@ -1,0 +1,34 @@
+.routes {
+    background-color: $secondaryBackgroundColor;
+    text-align: center;
+}
+
+.routes__inner {
+    grid-column: start / end;
+    position: relative;
+    color: $white;
+}
+
+.routes__header {
+    grid-column: col2 / col6;
+    white-space: nowrap;
+}
+
+.routes__text {
+    grid-column: col2 / col6;
+    margin-top: 0;
+    padding: 0 10%;
+    font-family: $tertiaryFontFamily;
+    text-align: center;
+}
+
+.routes__inner__route {
+    grid-column: col2 / col6;
+}
+
+.routes__inner__clock {
+   position: absolute;
+   bottom: 2rem;
+   right: 5%;
+   height: 30%;
+}

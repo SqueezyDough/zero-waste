@@ -24,5 +24,18 @@ span {
 }
 
 section {
-    padding: 3rem;
+    padding: 3rem 0;
+}
+
+.barTooltip {
+    position: absolute;
+    visibility: hidden;
+    z-index: 997;
+    padding: .5rem;
+    background-color: $white;
+    box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+    font-size: 1rem;
+    font-family: $tertiaryFontFamily;
+    color: $mainThemeColor;
+    border-radius: 6px;
 }

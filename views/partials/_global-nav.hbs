@@ -144,7 +144,7 @@ function updateMap (jsonMapData) {
                 return isSelected.color;
             }
         })
-        .attr('stroke-width', 4)
+        .attr('stroke-width', 6)
         .append('title')
         .attr('class', 'title')
         .text(function (d) {
@@ -204,6 +204,13 @@ let y = d3.scaleLinear()
     .range([ height, 0]);
 let yAxis = svg.append('g')
     .attr('class', 'myYaxis')
+
+const barTooltip = d3.select("body")
+    .append("div")
+    .attr("class", "barTooltip")
+    .style("position", "absolute")
+    .style("visibility", "hidden")
+    .style("z-index", "1")
 //#endregion
 
 // update bar chart
@@ -260,6 +267,21 @@ function updateBarChart(data) {
         .attr('width', xSubgroup.bandwidth())
         .attr('height', function(d) { return height - y(0); }) // always equal to 0
         .attr('y', function(d) { return y(0); })
+        .attr('class', 'rect')
+        .on("mouseover", d => {
+            return barTooltip.style("visibility", "visible")
+                .html(`
+                    <span class='barTooltip__dist'>${d.key}</span>
+                    <span class='barTooltip__value'>${d.value} afvalzakken </span>
+                `)
+        })
+        .on("mousemove", () => {
+            // tt positioning: https://www.d3-graph-gallery.com/graph/interactivity_tooltip.html
+            return barTooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+        })
+        .on("mouseout", () => {
+            return barTooltip.style("visibility", "hidden")
+        });
 
     svg.selectAll('rect')
         .transition()

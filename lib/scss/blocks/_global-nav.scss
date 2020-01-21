@@ -117,6 +117,13 @@
 
         &:checked + label{
             color: $tertiaryThemeColor;
+            animation: click ease-in-out .5s forwards;
+
+            @keyframes click {
+                to {
+                    color: $red;
+                }
+            }
         }
     }
 
@@ -127,6 +134,7 @@
         color: $mainThemeColor;
         cursor: pointer;
         user-select: none;
+        transition: $transitionDuration all;
 
         &:hover {
             color: $tertiaryThemeColor;

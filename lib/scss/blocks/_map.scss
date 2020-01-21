@@ -17,6 +17,7 @@
 }
 
 .map {
+  position: relative;
   background-color: $tertiaryBackgroundColor;
 }
 
@@ -27,9 +28,11 @@
 
 .map__inner__header {
   color: $white;
+  white-space: nowrap;
 }
 
 .map__inner__text {
+  padding: 0 10%;
   color: $white;
   font-family: $tertiaryFontFamily;
 }
