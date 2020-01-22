@@ -67,12 +67,12 @@ Type `http://localhost:3001` in your browser
 * Client dataset containg 30.000+ records of generated waste per address in Amsterdam. (Private dataset)
 * Geolocations dataset of Amsterdam containing all districts in Amsterdam. Can be used to create a map of Amsterdam. Contains 99 records. (Public dataset)
 
-### Anonymity
-I don't include the addresses in the new json file. This means this data is completely anonymous as thhe client requested. The source file is also not published on github or necessary for the application to run.
-
 ### Server side pre-processed data
 The client dataset contains over 30.000 records. Processinng this data in the client takes a lot of load time during runtime. 
 Therefore, the majority of the data is pre-processed on the server. It adds the sum of all addresses (per day) in a district to the district in the Geolocations dataset. This reduces the size from 7,2MB to only 97KB and significantly reduces the load time. It also makes it easier to transform the data for d3.js. NOTE: I only have to do this once. the server now only server the homepage and doesn't do anythinng else since it already combinend all datasets to one json file.
+
+### Anonymity
+I don't include the addresses in the new json file. This means this data is completely anonymous as thhe client requested. The source file is also not published on github or necessary for the application to run.
 
 ## Client side processing
 * Read json file that the server generated
