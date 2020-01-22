@@ -88,6 +88,9 @@ https://github.com/JulesBlm/RailAmsterdam
 ### Bar chart example
 https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html
 
+### Bar chart animation
+https://www.d3-graph-gallery.com/graph/barplot_animation_start.html
+
 ### Pie chart example
 https://www.d3-graph-gallery.com/graph/pie_annotation.html
 
