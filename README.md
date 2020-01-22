@@ -1,6 +1,8 @@
 # Zero Waste
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/intro.png?)
-
+![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/map.png?)
+![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/bars.png?)
+![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/routes.png?)
 
 ## Install
 ### Create directory
