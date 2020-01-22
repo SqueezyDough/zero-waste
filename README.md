@@ -7,13 +7,13 @@ This project was created for Urban Analytics. Urban analytics tries to gather, v
 Intro screen. It explains the current problem about garbage collection in Amsterdam.
 
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/map.png?)
-A map that visualizes the amount of waste per district. You can select a specific day click on a district to update the barchhart below.
+A map that visualizes the amount of waste per district. You can select a specific day click on a district to update the bar chart below.
 
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/bars.png?)
-A barchart that displays thhe amount of waste per day. it is possible to compare the average of Amsterdam with thhe total form a district.
+A bar chart that displays the amount of waste per day. it is possible to compare the average of Amsterdam with the total from 3 other districts.
 
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/routes.png?)
-The routes the garbage trucks a taking on a specific day, time and district. 
+The routes the garbage trucks a taking on a specific day, time or district. 
 
 ## Install
 ### Create directory
