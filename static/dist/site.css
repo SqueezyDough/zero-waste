@@ -520,6 +520,9 @@ input[type="submit"] {
 .compare-waste__inner__chart text {
   font-size: 1rem; }
 
+.compare-waste__inner__legend__label {
+  font-family: "Poppins-regular", Arial, sans-serif; }
+
 .rect {
   position: relative; }
 
