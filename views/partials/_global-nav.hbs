@@ -2,6 +2,7 @@
     bar chart example: https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html
     Bar chart animation: https://www.d3-graph-gallery.com/graph/barplot_animation_start.html
     choropleth map example: https://github.com/JulesBlm/RailAmsterdam
+    weighted random number generator: https://stackoverflow.com/questions/8435183/generate-a-weighted-random-number
 --}}
 
 <nav class='global-nav'>
@@ -119,7 +120,7 @@ const path = d3.geoPath()
 const district = { A: 'Centrum', B: 'Westpoort', E: 'West', M: 'Oost', K: 'Zuid', F: 'Nieuw west', N: 'Noord', T: 'Zuidoost' };
 
 const colorDistricts = d3.scaleLinear()
-    .domain([0, 30000])
+    .domain([0, 80000])
     .range(['#fff', '#ff5722']);
 
 const mapTooltip = d3.select("body")
@@ -135,7 +136,7 @@ const mapTooltip = d3.select("body")
 function updateMap (jsonMapData) {
     /* Districts */
     const districts = topojson.feature(jsonMapData, jsonMapData.objects.buurten).features;
-    const data = rawData.objects.buurten.geometries;
+    let data = rawData.objects.buurten.geometries;
 
     // Draw neighborhoods
     let paths = mapSvg.selectAll('.neighborhood')
@@ -231,6 +232,43 @@ function updateMap (jsonMapData) {
             return mapTooltip.style("visibility", "hidden")
         });
 };
+
+function enableCheatMode(data) {
+    return data.map(district => {
+        const maxRange = 30000;
+
+        // dont include zuid
+        if (district.properties.Stadsdeel_code !== 'K') {
+            Object.entries(district.properties.waste).forEach(day => {
+
+                // calculate random weighted number
+                const randomNumber = weightedRandomNumber ({
+                    [Math.floor(Math.random() * maxRange)]: 0.05,
+                    [Math.floor(Math.random() * maxRange / 3)]: 0.15,
+                    [Math.floor(Math.random() * maxRange / 5)]: 0.8
+                });
+
+                // fix if error
+                if (randomNumber === NaN) {
+                    randomNumber = Math.floor(Math.random() * maxRange);
+                }
+
+                district.properties.waste[day[0]] = parseInt(randomNumber);
+            });
+        }
+
+        return district;
+    });
+}
+
+function weightedRandomNumber(spec) {
+    let i, sum = 0, r = Math.random();
+
+    for (i in spec) {
+        sum += spec[i];
+        if (r <= sum) return i;
+    }
+}
 
 // draw map borders
 function drawDistrictBorders(jsonMapData) {
@@ -364,7 +402,27 @@ function updateBarChart(data) {
 
 // update chart data
 function updateData(data, userSelections) {
-    const districtAverage = findUserSelectedDistrict(data, userSelections)
+    if (userSelectDistrictsList) {
+        const cheatCode = userSelectDistrictsList.map(selection => selection.id).join('');
+
+        if (cheatCode === 'B10N73T92') {
+            data = enableCheatMode(data);
+
+            // count the data that is not empty
+            const validDataCount = data.map(item => {
+                return Object.values(item.properties.waste).every( key => {
+                    return Object.values(item.properties.waste)[key] !== 0;
+                });
+            }).filter( item => item).length;
+
+            // recalculate average
+            compareWaste = calculateWasteAverage(data, validDataCount);
+
+            // update bar chart
+            updateBarChart(compareWaste);
+        }
+   }
+    const districtAverage = findUserSelectedDistrict(data, userSelections);
 
     updateBarChart(districtAverage);
     updateMap(rawData);
@@ -564,7 +622,6 @@ function createDropdownEventListeners(data, input) {
 }
 
 function createLegendLabelsEventListeners(data, selectionsContainer, input, inputId) {
-    console.log('params: ', data, selectionsContainer, input, inputId)
     // clean legend
     const legendLabels = document.querySelectorAll('#districtsDropdownSelections label:not(.user-select-default)');
 
