@@ -63,9 +63,9 @@ Therefore, the majority of the data is pre-processed on the server. It adds the 
 ## Client side processing
 * Read json file that the server generated
 * Calculate total average from available data
-* total sum per day in a district
-* generate dropdown from data
-* update d3.js visualisations
+* Total sum per day in a district
+* Generate dropdown from data
+* Update d3.js visualisations
 
 ## Sources
 ### Choropleth map example
