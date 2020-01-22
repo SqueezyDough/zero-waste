@@ -58,10 +58,14 @@ Type `http://localhost:3001` in your browser
 
 ### Server side pre-processed data
 The client dataset contains over 30.000 records. Processinng this data in the client takes a lot of load time during runtime. 
-Therefore, the majority of the data is pre-processed on the server. It adds the sum of all addresses (per day) in a district to the district in the Geolocations dataset. This reduces the size from 7,2MB to only 97KB and significantly reduces the load time. It also makes it easier to transform the data for d3.js. 
+Therefore, the majority of the data is pre-processed on the server. It adds the sum of all addresses (per day) in a district to the district in the Geolocations dataset. This reduces the size from 7,2MB to only 97KB and significantly reduces the load time. It also makes it easier to transform the data for d3.js. NOTE: I only have to do this once. the server now only server the homepage and doesn't do anythinng else since it already combinend all datasets to one json file.
 
 ## Client side processing
-I calculate thing like the total sum per day in a district and the total average from all available data.
+* Read json file that the server generated
+* Calculate total average from available data
+* total sum per day in a district
+* generate dropdown from data
+* update d3.js visualisations
 
 ## Sources
 ### Choropleth map example
