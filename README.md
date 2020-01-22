@@ -2,11 +2,18 @@
 ## About the project
 This project was created for Urban Analytics. Urban analytics tries to gather, visualize and analyse data of the garbage traffic flow in Amsterdam. Many private garbage companies do not share there data with the public yet. This makes it hard to analyse the data and work for a efficient garnage flow. What we do know is that the garbage collection currently in Amsterdam is highly inefficient. In some streets might pass about or up to 18 garbage trucks on a particular workday. 
 
-## the application
+## The application
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/intro.png?)
+Intro screen. It explains the current problem about garbage collection in Amsterdam.
+
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/map.png?)
+A map that visualizes the amount of waste per district. You can select a specific day click on a district to update the barchhart below.
+
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/bars.png?)
+A barchart that displays thhe amount of waste per day. it is possible to compare the average of Amsterdam with thhe total form a district.
+
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/routes.png?)
+The routes the garbage trucks a taking on a specific day, time and district. 
 
 ## Install
 ### Create directory
