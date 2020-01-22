@@ -15,6 +15,9 @@ A bar chart that displays the amount of waste per day. it is possible to compare
 ![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/routes.png?)
 The routes the garbage trucks a taking on a specific day, time or district. 
 
+## Documentation
+[Client handoff](https://cmd-zero-waste.herokuapp.com/handoff)
+
 ## Install
 ```
 // Create directory
@@ -82,20 +85,9 @@ I don't include the addresses in the new json file. This means this data is comp
 * Update d3.js visualisations
 
 ## Acknowledgements
-### Choropleth map example
-https://github.com/JulesBlm/RailAmsterdam
-
-### Bar chart example
-https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html
-
-### Bar chart animation
-https://www.d3-graph-gallery.com/graph/barplot_animation_start.html
-
-### Pie chart example
-https://www.d3-graph-gallery.com/graph/pie_annotation.html
-
-### Form input hints
-https://jsfiddle.net/273ntk5s/2/
-
-### Weighted random number generator
-https://stackoverflow.com/questions/8435183/generate-a-weighted-random-number
+* [Choropleth map example](https://github.com/JulesBlm/RailAmsterdam)
+* [Bar chart example](https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html)
+* [Bar chart animation](https://www.d3-graph-gallery.com/graph/barplot_animation_start.html)
+* [Pie chart example](https://www.d3-graph-gallery.com/graph/pie_annotation.html)
+* [Form input hints](https://jsfiddle.net/273ntk5s/2/)
+* [Weighted random number generator](https://stackoverflow.com/questions/8435183/generate-a-weighted-random-number)
