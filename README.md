@@ -9,33 +9,37 @@
 Create a directory where you want to clone the repository on your computer.
 
 ### Move to directory
-Open up your terminal (Mac OS) or command prompt (Windows) and type the following
-```cd <path to your directory>```
+```
+// Open up your terminal (Mac OS) or command prompt (Windows) and type the following
+cd <path to your directory>
 
-### Clone repository
-```git clone https://github.com/SqueezyDough/zero-waste.git```
+// Clone repository
+git clone https://github.com/SqueezyDough/zero-waste.git```
 
-### Install packages
-```npm install```
+// Install packages
+npm install
 
-### Start application
-```npm run start```
+// Start application
+npm run start
+```
 
 ## Development
-### Install application
+```
+// Install application
 Make sure you've done all the steps above, but don't start the application yet.
 
-### Start application via nodemon
-```npm run dev```
+// Start application via nodemon
+npm run dev
 
-### Start scss watcher
-```npm run watch```
+// Start scss watcher
+npm run watch
 
-### View application
+// View application
 Type `http://localhost:3000` in your browser
 
-### View browsersync control panel
+// View browsersync control panel
 Type `http://localhost:3001` in your browser
+```
 
 ## Frameworks and libraries
 * Express: Create a new json file from combined datasets to increase client side performance.
