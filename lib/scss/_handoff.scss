@@ -1,0 +1,41 @@
+.handoff {
+    padding-top: 8rem;
+
+    h3 {
+        font-family: $secondaryFontfamily;
+        margin: 2rem 0 -.5rem;
+    }
+}
+
+.align-with-handoff-grid {
+    padding-left: 20%;
+}
+
+.handoff__inner {
+    grid-column: col2 / col6;
+}
+
+.handoff__inner__header {
+    margin-bottom: 0;
+}
+
+.handoff__inner__credits {
+    font-family: $tertiaryFontFamily;
+}
+
+.handoff__inner__resources {
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: $white;
+    box-shadow: 5px 5px 0 0 $quaternaryBackground-color;
+    border-radius: 0 5px 5px 0;
+
+    a {
+        display: block;
+        color: $mainThemeColor;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

@@ -19,8 +19,12 @@ h3 {
     font-size: 1.5rem;
 }
 
-span {
+span, p, li {
     font-family: $tertiaryFontFamily;
+}
+
+a {
+    text-decoration: none;
 }
 
 section {
@@ -33,9 +37,14 @@ section {
     z-index: 997;
     padding: .5rem;
     background-color: $white;
-    box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+    box-shadow: 5px 5px 0 0 $quaternaryBackground-color;
     font-size: 1rem;
     font-family: $tertiaryFontFamily;
     color: $mainThemeColor;
     border-radius: 6px;
+}
+
+.is-hidden {
+    display: none;
+    visibility: hidden;
 }

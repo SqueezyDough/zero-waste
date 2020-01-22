@@ -8,7 +8,7 @@ input, textarea {
   border: none;
   border-radius: 0 5px 5px 0;
   box-sizing: border-box;
-  box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+  box-shadow: 5px 5px 0 0 $quaternaryBackground-color;
   font-size: 1rem;
 }
 
@@ -33,7 +33,7 @@ input[type="submit"] {
   transition: $transitionDuration ease all;
 
   &:hover {
-    box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+    box-shadow: 5px 5px 0 0 $quaternaryBackground-color;
   }
 }
 
@@ -64,7 +64,7 @@ input[type="submit"] {
   background-color: $white;
   list-style-type: none;
   text-align: left;
-  box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+  box-shadow: 5px 5px 0 0 $quaternaryBackground-color;
   border-left: 1px solid darken($white, 10%);
   border-radius: 0 0 5px 0;
 
@@ -214,7 +214,7 @@ input[type="submit"] {
 
   padding: .5rem;
   border-radius: 0 5px 0 0;
-  box-shadow: 5px 5px 0 0 $tertiaryThemeColor;
+  box-shadow: 5px 5px 0 0 $quaternaryBackground-color;
   text-align: left;
   min-width: 20rem;
   box-sizing: border-box;

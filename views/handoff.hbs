@@ -1,0 +1,99 @@
+<div class="handoff grid-container">
+    <div class="handoff__inner">
+        <h1 class="handoff__inner__header">Handoff</h1>
+        <small class="handoff__inner__credits">Door Leroy van Biljouw, Stephanie Kuijpers & Lisa Oosterom</small>
+
+        <section class="handoff__inner__resources">
+            <h2>Resources</h2>
+            <a href="./static/docs/design-rationale.pdf" target="_blank">Design rationale</a>
+            <a href="./static/docs/product-biografie.pdf" target="_blank">Product biografie</a>
+        </section>
+
+        <section class="handoff__inner__data">
+            <h2>Datagebruik</h2>
+            <h3>Gebruikte datasets</h3>
+            <p>
+                Naast de dataset van Urban analytics gebruiken we een dataset waar alle
+                wijken in staan van Amsterdam met de polygonen om de kaart te maken.
+            </p>
+
+            <h3>Gevoelige data</h3>
+            <p>
+                De data van Urban analytics bevat adressen van bedrijven in Amsterdam gekoppeld
+                aan een fictief getal voor het aantal afval dat een bedrijf produceerd. Het publiceren van deze dataset kan
+                een verkeerd beeld geven over hoeveel afval een bepaald bedrijf produceerd, zonder dat daarbij vermeldt staat
+                dat dit fictieve getallen zijn. Om deze reden gebruiken we de adressen van de bedrijven en de bedrijfsnamen niet.
+            </p>
+        </section>
+
+        <section class="handoff__inner__visualizations">
+            <h2>Visualisatievormen</h2>
+            <h3>Pie chart</h3>
+            <p>
+                De pie chart geeft de data bekend bij het Zero Waste project weer.
+                Dit is een percentage is een schatting, want we weten niet exact hoeveel data er bekend is en hoeveel niet.
+                Dit percentage (15%) kan in de toekomst worden aangepast als er meer data beschikbaar komt.
+            </p>
+
+            <h3>Kaart</h3>
+            <p>
+                De kaart van Amsterdam geeft het totaal aantal afvalzakken per buurt weer.
+                De data die momenteel wordt weergeven is de data van de bij ons bekende dataset,
+                dit kan uitgebreid worden met een andere dataset.
+            </p>
+
+            <h3>Staafdiagram</h3>
+            <p>
+                De staafdiagrammen geven het gemiddelde aantal afvalzakken per dag weer van de data die we hebben.
+                Gemiddeld Amsterdam kan met 3 andere gebieden wordt vergeleken die in de sticky filter worden gekozen.
+                De gebieden die worden gekozen zijn niet gemiddeld maar totalen van dat gebied, zodat je het gemiddelde
+                met het totaal van een wijk kan vergelijken.
+            </p>
+
+            <h3>Routes afvalstroom</h3>
+            <p>
+                Dit is een conceptueel onderdeel. Hierin weergeven wij de mogelijke routes die door afvalwagens worden
+                gereden op een dag in een bepaald gebied. Dit is mogelijk door middel van route data en zouden wij op deze
+                manier willen weergeven. Door middel van het kiezen van een gebied en een dag komen daar 2 mogelijke routes uit.
+                Op het moment dat er meerdere datasets worden verwerkt en er route data beschikbaar is.
+            </p>
+        </section>
+
+        <section class="handoff__inner__menus">
+            <h2>Filters</h2>
+            <p>In de sticky filter kan je twee dingen filteren:
+                <ul>
+                    <li>
+                        Dagen van de week. Je zou per dag van de week kunnen filteren,
+                        dit heeft vooral invloed op de kaart en de routes. Zodra er een dag wordt
+                        gekozen wordt er in de kaart de data van die dag laten zien en de mogelijke
+                        route voor die dag.
+                    </li>
+                    <li>
+                        Gebieden in Amsterdam. Je zou de data visualisaties kunnen filteren per gebied,
+                        dit heeft vooral invloed op de staafdiagram en de route. Zodra er een gebied wordt
+                        gekozen in de sticky filter, wordt dit gebied weergeven in de staafdiagram en wordt het gebied
+                        gehighlight in de kaart met een rand.
+                    </li>
+                </ul>
+            </p>
+        </section>
+
+        <section class="handoff__inner__form">
+            <h2>Formulier</h2>
+            <p>
+                Door middel van het invullen van het contact form kan je vragen of opmerkingen versturen naar de data studio.
+                Dit formulier is vooral bedoeld voor bedrijven die mee willen werken met zero waste en hun data willen
+                delen om zo voor een meer efficiënt en zero waste Amsterdam te gaan.
+            </p>
+        </section>
+    </div>
+</div>
+
+<script>
+    const nav = document.getElementById('mainNav');
+    const menu = document.getElementById('mainNavMenu');
+
+    nav.classList.add('align-with-handoff-grid');
+    menu.classList.add('is-hidden');
+</script>

@@ -22,4 +22,7 @@ app
   .get('/', (req, res) => {
     res.render('home');
   })
+  .get('/handoff', (req, res) => {
+    res.render('handoff');
+  })
   .listen(port, () => console.log(`App listening on port ${port}!`));
