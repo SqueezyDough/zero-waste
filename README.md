@@ -78,7 +78,7 @@ Therefore, the majority of the data is pre-processed on the server. It adds the 
 * Generate dropdown from data
 * Update d3.js visualisations
 
-## Sources
+## Acknowledgements
 ### Choropleth map example
 https://github.com/JulesBlm/RailAmsterdam
 
