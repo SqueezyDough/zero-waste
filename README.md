@@ -82,6 +82,9 @@ Therefore, the majority of the data is pre-processed on the server. It adds the 
 ### Choropleth map example
 https://github.com/JulesBlm/RailAmsterdam
 
+### Bar chart example
+https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html
+
 ### Pie chart example
 https://www.d3-graph-gallery.com/graph/pie_annotation.html
 
