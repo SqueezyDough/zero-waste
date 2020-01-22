@@ -96,3 +96,6 @@ https://www.d3-graph-gallery.com/graph/pie_annotation.html
 
 ### Form input hints
 https://jsfiddle.net/273ntk5s/2/
+
+### weighted random number generator
+https://stackoverflow.com/questions/8435183/generate-a-weighted-random-number
