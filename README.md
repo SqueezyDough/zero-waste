@@ -1,5 +1,5 @@
 # Zero Waste
-![](https://github.com/SqueezyDough/zer-waste/blob/master/github/upload/orbit-example.png?)
+![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/intro.png?)
 
 
 ## Install
