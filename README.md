@@ -1,7 +1,10 @@
 # Zero Waste
-## Description
 
-## Usage
+
+## Install
+###Clone repository
+
+git clone https://github.com/SqueezyDough/frontend-data.git
 
 
 ## Sources
