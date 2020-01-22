@@ -16,12 +16,12 @@ A bar chart that displays the amount of waste per day. it is possible to compare
 The routes the garbage trucks a taking on a specific day, time or district. 
 
 ## Install
-### Create directory
+```
+// Create directory
 Create a directory where you want to clone the repository on your computer.
 
-### Move to directory
-```
-// Open up your terminal (Mac OS) or command prompt (Windows) and type the following
+// Move to directory
+Open up your terminal (Mac OS) or command prompt (Windows) and type the following
 cd <path to your directory>
 
 // Clone repository
