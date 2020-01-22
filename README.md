@@ -1,4 +1,5 @@
 # Zero Waste
+![](https://github.com/SqueezyDough/zero-waste/blob/master/lib/github-files/intro.png?)
 
 
 ## Install
